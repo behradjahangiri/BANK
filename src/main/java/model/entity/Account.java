@@ -15,7 +15,7 @@ import java.util.List;
 //کلاس میتونه ابسترک بشه
 
 public class Account {
-    private String accountName;
+    private int accountNumber;
     private double balance;
     private LocalDate openDate;
     private String status;
