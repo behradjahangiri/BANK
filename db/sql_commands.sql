@@ -12,6 +12,8 @@ create table customer(
     registrationdate date
 );
 
+create sequence customer_seq start with 1 increment by 1;
+
 CREATE table account(
     accountnumber nvarchar2(16) primary key ,
     balance number,
@@ -20,6 +22,8 @@ CREATE table account(
     customerid number,
     foreign key (customerid) references customer(id)
 );
+
+-- create sequence account_seq start with 1 increment by 1;
 
 create table transaction(
     transactionid number primary key ,
@@ -30,4 +34,6 @@ create table transaction(
     targetaccount nvarchar2(16),
     foreign key (sourceaccount) references account(accountnumber),
     foreign key (targetaccount) references account(accountnumber)
-)
+);
+
+create sequence transaction_seq start with 1 increment by 1;
