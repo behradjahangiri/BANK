@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CustomerMapper {
-    public Customer recordTo(ResultSet resultSet) throws SQLException {
+    public Customer recordToCustomer(ResultSet resultSet) throws SQLException {
         return Customer
                 .builder()
                 .id(resultSet.getInt("id"))
