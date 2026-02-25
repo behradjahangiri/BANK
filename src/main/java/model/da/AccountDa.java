@@ -80,5 +80,7 @@ public class AccountDa implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
+        preparedStatement.close();
+        connection.close();
     }
 }

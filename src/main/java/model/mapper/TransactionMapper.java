@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TransactionMapper {
-    public Transaction recordTo(ResultSet resultSet) throws SQLException {
+    public Transaction recordToTransaction(ResultSet resultSet) throws SQLException {
 
         Customer sourcecustomer =
                 Customer
