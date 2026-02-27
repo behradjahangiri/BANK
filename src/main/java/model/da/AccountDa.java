@@ -18,9 +18,9 @@ public class AccountDa implements AutoCloseable {
         connection = ConnectionProvider.getInstance().getConnection();
 //        account.setAccountNumber(ConnectionProvider.getInstance().getNextId("account_seq"));
         preparedStatement = connection.prepareStatement(
-                "INSERT INTO account (ACCOUNTNUMBER ,BALANCE,OPENDATE,STATUS,CUSTOMERID) VALUES (?,?,?,?,?)"
+                "INSERT INTO account (ACCOUNTID ,BALANCE,OPENDATE,STATUS,CUSTOMERID) VALUES (?,?,?,?,?)"
         );
-        preparedStatement.setString(1, account.getAccountNumber());
+        preparedStatement.setInt(1, account.getAccountId());
         preparedStatement.setDouble(2, account.getBalance());
         preparedStatement.setDate(3, Date.valueOf(account.getOpenDate()));
         preparedStatement.setString(4, account.getStatus());
@@ -31,23 +31,23 @@ public class AccountDa implements AutoCloseable {
     public void updateAccount(Account account) throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
-                "UPDATE account SET BALANCE=?,OPENDATE=?,STATUS=?,CUSTOMERID=? where ACCOUNTNUMBER=?"
+                "UPDATE account SET BALANCE=?,OPENDATE=?,STATUS=?,CUSTOMERID=? where ACCOUNTID=?"
         );
 
         preparedStatement.setDouble(1, account.getBalance());
         preparedStatement.setDate(2, Date.valueOf(account.getOpenDate()));
         preparedStatement.setString(3, account.getStatus());
         preparedStatement.setLong(4, account.getCustomer().getId());
-        preparedStatement.setString(5, account.getAccountNumber());
+        preparedStatement.setInt(5, account.getAccountId());
         preparedStatement.execute();
     }
 
-    public void deleteAccount(int accountnumber) throws Exception {
+    public void deleteAccount(int accountid) throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
-                "DELETE FROM account WHERE ACCOUNTNUMBER=?"
+                "DELETE FROM account WHERE ACCOUNTID=?"
         );
-        preparedStatement.setInt(1, accountnumber);
+        preparedStatement.setInt(1, accountid);
         preparedStatement.execute();
     }
 
@@ -60,7 +60,7 @@ public class AccountDa implements AutoCloseable {
         List<Account> accountList = new ArrayList<>();
         while (resultSet.next()) {
             Account account = accountMapper.recordToAccount(resultSet);
-            account.setAccountNumber(resultSet.getString("ACCOUNTNUMBER"));
+            account.setAccountId(resultSet.getInt("ACCOUNTid"));
         }
         return accountList;
     }
@@ -68,7 +68,7 @@ public class AccountDa implements AutoCloseable {
     public Account findAccountById(int id) throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
-                "SELECT * FROM account WHERE ACCOUNTNUMBER=?"
+                "SELECT * FROM account WHERE ACCOUNTID=?"
         );
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();

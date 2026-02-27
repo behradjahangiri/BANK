@@ -26,7 +26,7 @@ public class AccountMapper {
 
         return Account
                 .builder()
-                .accountNumber(resultSet.getInt("accountnumber"))
+                .accountId(resultSet.getString("accountid"))
                 .balance(resultSet.getDouble("balance"))
                 .openDate(resultSet.getDate("opendate").toLocalDate())
                 .status(resultSet.getString("status"))
