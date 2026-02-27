@@ -19,27 +19,25 @@ public class TransactionDa implements AutoCloseable {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
                 "INSERT INTO TRANSACTION (TRANSACTIONID, TRANSACTIONTYPE, AMOUNT," +
-                        " TRANSACTIONDATE, SOURCEACCOUNT, TARGETACCOUNT) "+"values (?,?,?,?,?,?)"
+                        " TRANSACTIONDATE,  ACCOUNTID) "+"values (?,?,?,?,?)"
         );
         preparedStatement.setLong(1,transaction.getTransactionid());
         preparedStatement.setString(2,transaction.getTransactionType().name());
         preparedStatement.setDouble(3,transaction.getAmount());
-        preparedStatement.setString(4,transaction.getSourceAccount().getAccountNumber());
-        preparedStatement.setString(5,transaction.getTargetAccount().getAccountNumber());
+        preparedStatement.setInt(4,transaction.getAccount().getAccountId());
         preparedStatement.execute();
     }
     public void updateTransaction(Transaction transaction) throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
                 "update TRANSACTION set TRANSACTIONTYPE=?,AMOUNT=?,TRANSACTIONDATE=?" +
-                        ",SOURCEACCOUNT=?,TARGETACCOUNT=? where TRANSACTIONID=?"
+                        ",ACCOUNTID=? where TRANSACTIONID=?"
         );
 
         preparedStatement.setString(1,transaction.getTransactionType().name());
         preparedStatement.setDouble(2,transaction.getAmount());
-        preparedStatement.setString(3,transaction.getSourceAccount().getAccountNumber());
-        preparedStatement.setString(4,transaction.getTargetAccount().getAccountNumber());
-        preparedStatement.setLong(5,transaction.getTransactionid());
+        preparedStatement.setInt(3,transaction.getAccount().getAccountId());
+        preparedStatement.setLong(4,transaction.getTransactionid());
         preparedStatement.execute();
     }
     public void deleteTransaction(Transaction transaction) throws Exception {
@@ -54,7 +52,7 @@ public class TransactionDa implements AutoCloseable {
     public List<Transaction> findAllTransactions() throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
-                "SELECT * FROM TRANSACTION_REPORT"
+                "SELECT * FROTRANSACTION_REPORT"
         );
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Transaction> transactionList = new ArrayList<>();

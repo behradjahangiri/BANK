@@ -93,7 +93,7 @@ public class TransactionMapper {
 
         Account account = Account
                 .builder()
-                .accountId(resultSet.getString("source_account_id"))
+                .accountId(resultSet.getInt("source_account_id"))
                 .balance(resultSet.getDouble("source_balance"))
                 .openDate(resultSet.getDate("source_open_date").toLocalDate())
                 .status(resultSet.getString("source_status"))
