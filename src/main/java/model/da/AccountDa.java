@@ -16,11 +16,11 @@ public class AccountDa implements AutoCloseable {
 
     public void saveAccount(Account account) throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
-        account.setAccountNumber(ConnectionProvider.getInstance().getNextId("account_seq"));
+//        account.setAccountNumber(ConnectionProvider.getInstance().getNextId("account_seq"));
         preparedStatement = connection.prepareStatement(
                 "INSERT INTO account (ACCOUNTNUMBER ,BALANCE,OPENDATE,STATUS,CUSTOMERID) VALUES (?,?,?,?,?)"
         );
-        preparedStatement.setInt(1, account.getAccountNumber());
+        preparedStatement.setString(1, account.getAccountNumber());
         preparedStatement.setDouble(2, account.getBalance());
         preparedStatement.setDate(3, Date.valueOf(account.getOpenDate()));
         preparedStatement.setString(4, account.getStatus());
@@ -38,7 +38,7 @@ public class AccountDa implements AutoCloseable {
         preparedStatement.setDate(2, Date.valueOf(account.getOpenDate()));
         preparedStatement.setString(3, account.getStatus());
         preparedStatement.setLong(4, account.getCustomer().getId());
-        preparedStatement.setInt(5, account.getAccountNumber());
+        preparedStatement.setString(5, account.getAccountNumber());
         preparedStatement.execute();
     }
 
@@ -60,7 +60,7 @@ public class AccountDa implements AutoCloseable {
         List<Account> accountList = new ArrayList<>();
         while (resultSet.next()) {
             Account account = accountMapper.recordToAccount(resultSet);
-            account.setAccountNumber(resultSet.getInt("ACCOUNTNUMBER"));
+            account.setAccountNumber(resultSet.getString("ACCOUNTNUMBER"));
         }
         return accountList;
     }
