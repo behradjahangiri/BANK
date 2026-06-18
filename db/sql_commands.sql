@@ -15,7 +15,7 @@
 -- create sequence customer_seq start with 1 increment by 1;
 
 -- CREATE table account(
---     accountnumber nvarchar2(16) primary key ,
+--     accountid number primary key ,
 --     balance number,
 --     opendate date,
 --     status nvarchar2(10),
@@ -30,138 +30,60 @@
 --     transactiontype nvarchar2(10),
 --     amount float,
 --     transactiondate date,
---     sourceaccount nvarchar2(16),
---     targetaccount nvarchar2(16),
---     foreign key (sourceaccount) references account(accountnumber),
---     foreign key (targetaccount) references account(accountnumber)
+--     accountid number,
+--     foreign key (accountid) references account(accountid)
 -- );
 
 -- create sequence transaction_seq start with 1 increment by 1;
 
--- create view transaction_report as
--- select TRANSACTIONID as TRANSACTION_ID,
---        TRANSACTIONTYPE as TRANSACTION_TYPE,
---        AMOUNT as AMOUNT,
---        SOURCEACCOUNT as SOURCEACCOUNT,
---        TARGETACCOUNT as TARGETACCOUNT,
---        CUSTOMER.FIRSTNAME as FIRST_NAME,
---        CUSTOMER.LASTNAME as LAST_NAME
---
--- from TRANSACTION
---     inner join
---     ACCOUNT  on TRANSACTION.SOURCEACCOUNT = ACCOUNT.ACCOUNTNUMBER
---     inner join
---     ACCOUNT on TRANSACTION.TARGETACCOUNT = ACCOUNT.ACCOUNTNUMBER
---     inner join
---     CUSTOMER on
-
 -- CREATE VIEW transaction_report AS
 -- SELECT
---     transaction_table.transactionid AS transaction_id,               -- شناسه تراکنش
---     transaction_table.transactiontype AS transaction_type,           -- نوع تراکنش
---     transaction_table.amount AS amount,                              -- مبلغ تراکنش
---     transaction_table.transactiondate AS transaction_date,           -- تاریخ تراکنش
+--     -- تمام فیلدهای TRANSACTION
+--     transaction_table.transactionid          AS transaction_id,
+--     transaction_table.transactiontype        AS transaction_type,
+--     transaction_table.amount                 AS amount,
+--     transaction_table.transactiondate        AS transaction_date,
+--     transaction_table.accountid              AS transaction_account_id,
 --
---     -- جزئیات حساب منبع (source)
---     source_account_table.accountnumber AS source_account_number,     -- شماره حساب منبع
---     source_account_table.balance AS source_balance,                  -- موجودی حساب منبع
---     source_account_table.opendate AS source_open_date,               -- تاریخ افتتاح حساب منبع
---     source_account_table.status AS source_status,                    -- وضعیت حساب منبع
+--     -- تمام فیلدهای ACCOUNT (حساب)
+--     account_table.ACCOUNTID              AS account_id,
+--     account_table.balance                    AS account_balance,
+--     account_table.opendate                   AS account_open_date,
+--     account_table.status                     AS account_status,
+--     account_table.customerid                 AS account_customer_id,
 --
---     -- جزئیات مشتری منبع (source)
---     source_customer_table.firstname || ' ' || source_customer_table.lastname AS source_customer_full_name,  -- نام کامل مشتری منبع
---     source_customer_table.phone AS source_phone,                     -- شماره تلفن مشتری منبع
---     source_customer_table.email AS source_email,                     -- ایمیل مشتری منبع
+--     -- تمام فیلدهای CUSTOMER (مشتری)
+--     customer_table.id                        AS customer_id,
+--     customer_table.username                  AS customer_username,
+--     customer_table.password                  AS customer_password,
+--     customer_table.firstname                 AS customer_firstname,
+--     customer_table.lastname                  AS customer_lastname,
+--     customer_table.nationllid                AS customer_nationallid,
+--     customer_table.phone                     AS customer_phone,
+--     customer_table.email                     AS customer_email,
+--     customer_table.address                   AS customer_address,
+--     customer_table.dateofbirth               AS customer_dateofbirth,
+--     customer_table.registrationdate          AS customer_registrationdate
 --
---     -- جزئیات حساب مقصد (target)
---     target_account_table.accountnumber AS target_account_number,     -- شماره حساب مقصد
---     target_account_table.balance AS target_balance,                  -- موجودی حساب مقصد
---     target_account_table.opendate AS target_open_date,               -- تاریخ افتتاح حساب مقصد
---     target_account_table.status AS target_status,                    -- وضعیت حساب مقصد
---
---     -- جزئیات مشتری مقصد (target)
---     target_customer_table.firstname || ' ' || target_customer_table.lastname AS target_customer_full_name,  -- نام کامل مشتری مقصد
---     target_customer_table.phone AS target_phone,                     -- شماره تلفن مشتری مقصد
---     target_customer_table.email AS target_email                      -- ایمیل مشتری مقصد
 -- FROM
---     transaction transaction_table                                    -- جدول اصلی: تراکنش‌ها
---         INNER JOIN
---     account source_account_table                                     -- جوین اول: حساب منبع
---     ON transaction_table.sourceaccount = source_account_table.accountnumber
---         INNER JOIN
---     customer source_customer_table                                   -- جوین دوم: مشتری منبع (از طریق حساب منبع)
---     ON source_account_table.customerid = source_customer_table.id
---         INNER JOIN
---     account target_account_table                                     -- جوین سوم: حساب مقصد
---     ON transaction_table.targetaccount = target_account_table.accountnumber
---         INNER JOIN
---     customer target_customer_table                                   -- جوین چهارم: مشتری مقصد (از طریق حساب مقصد)
---     ON target_account_table.customerid = target_customer_table.id;
+--     TRANSACTION transaction_table
 --
+-- INNER JOIN
+--     ACCOUNT  account_table
+--     ON transaction_table.accountid = account_table.accountid
+--
+-- INNER JOIN
+--     CUSTOMER  customer_table
+--     ON account_table.customerid = customer_table.id;
 
-CREATE VIEW transaction_report AS
-SELECT
-    -- فیلدهای جدول TRANSACTION
-    transaction_table.transactionid          AS transaction_id,
-    transaction_table.transactiontype        AS transaction_type,
-    transaction_table.amount                 AS amount,
-    transaction_table.transactiondate        AS transaction_date,
-
-    -- تمام فیلدهای ACCOUNT منبع (source)
-    source_account.accountnumber             AS source_account_number,
-    source_account.balance                   AS source_balance,
-    source_account.opendate                  AS source_open_date,
-    source_account.status                    AS source_status,
-    source_account.customerid                AS source_account_customerid,
-
-    -- تمام فیلدهای CUSTOMER منبع (source)
-    source_customer.id                       AS source_customer_id,
-    source_customer.username                 AS source_customer_username,
-    source_customer.password                 AS source_customer_password,
-    source_customer.firstname                AS source_customer_firstname,
-    source_customer.lastname                 AS source_customer_lastname,
-    source_customer.nationllid               AS source_customer_nationallid,
-    source_customer.phone                    AS source_customer_phone,
-    source_customer.email                    AS source_customer_email,
-    source_customer.address                  AS source_customer_address,
-    source_customer.dateofbirth              AS source_customer_dateofbirth,
-    source_customer.registrationdate         AS source_customer_registrationdate,
-
-    -- تمام فیلدهای ACCOUNT مقصد (target)
-    target_account.accountnumber             AS target_account_number,
-    target_account.balance                   AS target_balance,
-    target_account.opendate                  AS target_open_date,
-    target_account.status                    AS target_status,
-    target_account.customerid                AS target_account_customerid,
-
-    -- تمام فیلدهای CUSTOMER مقصد (target)
-    target_customer.id                       AS target_customer_id,
-    target_customer.username                 AS target_customer_username,
-    target_customer.password                 AS target_customer_password,
-    target_customer.firstname                AS target_customer_firstname,
-    target_customer.lastname                 AS target_customer_lastname,
-    target_customer.nationllid               AS target_customer_nationallid,
-    target_customer.phone                    AS target_customer_phone,
-    target_customer.email                    AS target_customer_email,
-    target_customer.address                  AS target_customer_address,
-    target_customer.dateofbirth              AS target_customer_dateofbirth,
-    target_customer.registrationdate         AS target_customer_registrationdate
-
-FROM
-    TRANSACTION  transaction_table
-
-INNER JOIN
-    ACCOUNT  source_account
-    ON transaction_table.sourceaccount = source_account.accountnumber
-
-INNER JOIN
-    CUSTOMER  source_customer
-    ON source_account.customerid = source_customer.id
-
-INNER JOIN
-    ACCOUNT  target_account
-    ON transaction_table.targetaccount = target_account.accountnumber
-
-INNER JOIN
-    CUSTOMER  target_customer
-    ON target_account.customerid = target_customer.id;
+-- CREATE TABLE APP_LOG (
+--                          LOG_ID       NUMBER(20)     PRIMARY KEY,
+--                          LOG_TIME     TIMESTAMP      NOT NULL,
+--                          LOG_LEVEL    VARCHAR2(10)   NOT NULL,
+--                          LOGGER_NAME  VARCHAR2(254)  NOT NULL,
+--                          LOG_MESSAGE  VARCHAR2(4000) NOT NULL
+-- );
+--
+-- CREATE SEQUENCE APP_LOG_SEQ
+--     START WITH 1
+--     INCREMENT BY 1;
