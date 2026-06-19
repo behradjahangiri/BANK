@@ -1,15 +1,16 @@
 package model.da;
 
+import lombok.extern.slf4j.Slf4j;
 import model.entity.Transaction;
 import model.mapper.TransactionMapper;
 import model.tools.ConnectionProvider;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class TransactionDa implements AutoCloseable {
     private final TransactionMapper transactionMapper = new TransactionMapper();
     private Connection connection;
@@ -26,28 +27,29 @@ public class TransactionDa implements AutoCloseable {
         preparedStatement.setDouble(3,transaction.getAmount());
         preparedStatement.setInt(4,transaction.getAccount().getAccountId());
         preparedStatement.execute();
+        log.debug("Transaction saved");
     }
-    public void updateTransaction(Transaction transaction) throws Exception {
-        connection = ConnectionProvider.getInstance().getConnection();
-        preparedStatement = connection.prepareStatement(
-                "update TRANSACTION set TRANSACTIONTYPE=?,AMOUNT=?,TRANSACTIONDATE=?" +
-                        ",ACCOUNTID=? where TRANSACTIONID=?"
-        );
-
-        preparedStatement.setString(1,transaction.getTransactionType().name());
-        preparedStatement.setDouble(2,transaction.getAmount());
-        preparedStatement.setInt(3,transaction.getAccount().getAccountId());
-        preparedStatement.setLong(4,transaction.getTransactionid());
-        preparedStatement.execute();
-    }
-    public void deleteTransaction(Transaction transaction) throws Exception {
-        connection = ConnectionProvider.getInstance().getConnection();
-        preparedStatement = connection.prepareStatement(
-                "delete from TRANSACTION where TRANSACTIONID=?"
-        );
-        preparedStatement.setLong(1,transaction.getTransactionid());
-        preparedStatement.execute();
-    }
+//    public void updateTransaction(Transaction transaction) throws Exception {
+//        connection = ConnectionProvider.getInstance().getConnection();
+//        preparedStatement = connection.prepareStatement(
+//                "update TRANSACTION set TRANSACTIONTYPE=?,AMOUNT=?,TRANSACTIONDATE=?" +
+//                        ",ACCOUNTID=? where TRANSACTIONID=?"
+//        );
+//
+//        preparedStatement.setString(1,transaction.getTransactionType().name());
+//        preparedStatement.setDouble(2,transaction.getAmount());
+//        preparedStatement.setInt(3,transaction.getAccount().getAccountId());
+//        preparedStatement.setLong(4,transaction.getTransactionid());
+//        preparedStatement.execute();
+//    }
+//    public void deleteTransaction(Transaction transaction) throws Exception {
+//        connection = ConnectionProvider.getInstance().getConnection();
+//        preparedStatement = connection.prepareStatement(
+//                "delete from TRANSACTION where TRANSACTIONID=?"
+//        );
+//        preparedStatement.setLong(1,transaction.getTransactionid());
+//        preparedStatement.execute();
+//    }
 
     public List<Transaction> findAllTransactions() throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
@@ -61,6 +63,7 @@ public class TransactionDa implements AutoCloseable {
             Transaction transaction = transactionMapper.recordToTransaction(resultSet);
             transaction.setTransactionid(resultSet.getLong("TRANSACTIONID"));
         }
+        log.debug("select all transactions");
         return transactionList;
     }
 
@@ -77,6 +80,7 @@ public class TransactionDa implements AutoCloseable {
         if(resultSet.next()){
             transaction = transactionMapper.recordToTransaction(resultSet);
         }
+        log.debug("select transaction by id");
         return transaction;
 
     }
