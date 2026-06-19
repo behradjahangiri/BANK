@@ -1,5 +1,6 @@
 package model.da;
 
+import lombok.extern.slf4j.Slf4j;
 import model.entity.Customer;
 import model.mapper.CustomerMapper;
 import model.tools.ConnectionProvider;
@@ -8,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class CustomerDa implements AutoCloseable {
     private final CustomerMapper customerMapper = new CustomerMapper();
     private Connection connection;
@@ -32,6 +34,7 @@ public class CustomerDa implements AutoCloseable {
         preparedStatement.setDate(10, Date.valueOf(customer.getDateOfBirth()));
         preparedStatement.setDate(11, Date.valueOf(customer.getRegistrationDate()));
         preparedStatement.execute();
+        log.debug("customer saved");
     }
     public void updateCustomer(Customer customer)  throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
@@ -52,6 +55,7 @@ public class CustomerDa implements AutoCloseable {
         preparedStatement.setDate(10, Date.valueOf(customer.getRegistrationDate()));
         preparedStatement.setLong(11, customer.getId());
         preparedStatement.execute();
+        log.debug("customer edited");
     }
     public void deleteCustomer(long id)  throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
@@ -60,6 +64,7 @@ public class CustomerDa implements AutoCloseable {
         );
         preparedStatement.setLong(1, id);
         preparedStatement.execute();
+        log.debug("customer deleted");
     }
     public List<Customer> findAllCustomers()  throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
@@ -72,6 +77,7 @@ public class CustomerDa implements AutoCloseable {
             Customer customer = customerMapper.recordToCustomer(resultSet);
             customerList.add(customer);
         }
+        log.debug("select all customer");
         return customerList;
     }
     public Customer findCustomerById(long id)  throws Exception {
@@ -85,6 +91,7 @@ public class CustomerDa implements AutoCloseable {
         if (resultSet.next()) {
             customer = customerMapper.recordToCustomer(resultSet);
         }
+        log.debug("select customer by id");
         return customer;
     }
     public Customer findCustomerByNationllid(long id)  throws Exception {
@@ -98,6 +105,7 @@ public class CustomerDa implements AutoCloseable {
         if (resultSet.next()) {
             customer = customerMapper.recordToCustomer(resultSet);
         }
+        log.debug("select customer by nationllid");
         return customer;
     }
     @Override
