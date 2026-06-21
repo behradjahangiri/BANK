@@ -3,7 +3,6 @@ package model.bl;
 import lombok.Getter;
 import model.da.CustomerDa;
 import model.entity.Customer;
-
 import java.util.List;
 
 public class CustomerBl implements BusinessLogic<Customer, Integer>{

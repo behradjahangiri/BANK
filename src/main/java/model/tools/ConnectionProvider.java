@@ -1,8 +1,8 @@
 package model.tools;
 
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.dbcp2.BasicDataSource;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 //        );
 //    }
 //}
+@Slf4j
 public class ConnectionProvider {
     //    Singleton
     private final static BasicDataSource BASIC_DATA_SOURCE = new BasicDataSource();
@@ -40,6 +41,7 @@ public class ConnectionProvider {
     }
 
     public Connection getConnection() throws Exception {
+        log.debug("data base connected");
         return BASIC_DATA_SOURCE.getConnection();
     }
 

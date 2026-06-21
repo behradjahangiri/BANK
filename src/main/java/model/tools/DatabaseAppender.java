@@ -3,7 +3,6 @@ package model.tools;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.Timestamp;
