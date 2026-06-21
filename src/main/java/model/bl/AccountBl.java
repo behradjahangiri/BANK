@@ -3,7 +3,6 @@ package model.bl;
 import lombok.Getter;
 import model.da.AccountDa;
 import model.entity.Account;
-
 import java.util.List;
 
 public class AccountBl implements BusinessLogic<Account, Integer>{

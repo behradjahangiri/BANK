@@ -29,27 +29,27 @@ public class TransactionDa implements AutoCloseable {
         preparedStatement.execute();
         log.debug("Transaction saved");
     }
-//    public void updateTransaction(Transaction transaction) throws Exception {
-//        connection = ConnectionProvider.getInstance().getConnection();
-//        preparedStatement = connection.prepareStatement(
-//                "update TRANSACTION set TRANSACTIONTYPE=?,AMOUNT=?,TRANSACTIONDATE=?" +
-//                        ",ACCOUNTID=? where TRANSACTIONID=?"
-//        );
-//
-//        preparedStatement.setString(1,transaction.getTransactionType().name());
-//        preparedStatement.setDouble(2,transaction.getAmount());
-//        preparedStatement.setInt(3,transaction.getAccount().getAccountId());
-//        preparedStatement.setLong(4,transaction.getTransactionid());
-//        preparedStatement.execute();
-//    }
-//    public void deleteTransaction(Transaction transaction) throws Exception {
-//        connection = ConnectionProvider.getInstance().getConnection();
-//        preparedStatement = connection.prepareStatement(
-//                "delete from TRANSACTION where TRANSACTIONID=?"
-//        );
-//        preparedStatement.setLong(1,transaction.getTransactionid());
-//        preparedStatement.execute();
-//    }
+    public void updateTransaction(Transaction transaction) throws Exception {
+        connection = ConnectionProvider.getInstance().getConnection();
+        preparedStatement = connection.prepareStatement(
+                "update TRANSACTION set TRANSACTIONTYPE=?,AMOUNT=?,TRANSACTIONDATE=?" +
+                        ",ACCOUNTID=? where TRANSACTIONID=?"
+        );
+
+        preparedStatement.setString(1,transaction.getTransactionType().name());
+        preparedStatement.setDouble(2,transaction.getAmount());
+        preparedStatement.setInt(3,transaction.getAccount().getAccountId());
+        preparedStatement.setLong(4,transaction.getTransactionid());
+        preparedStatement.execute();
+    }
+    public void deleteTransaction(Transaction transaction) throws Exception {
+        connection = ConnectionProvider.getInstance().getConnection();
+        preparedStatement = connection.prepareStatement(
+                "delete from TRANSACTION where TRANSACTIONID=?"
+        );
+        preparedStatement.setLong(1,transaction.getTransactionid());
+        preparedStatement.execute();
+    }
 
     public List<Transaction> findAllTransactions() throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
