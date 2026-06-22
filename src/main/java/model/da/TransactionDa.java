@@ -7,6 +7,7 @@ import model.tools.ConnectionProvider;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class TransactionDa implements AutoCloseable {
         preparedStatement.setLong(1,transaction.getTransactionid());
         preparedStatement.setString(2,transaction.getTransactionType().name());
         preparedStatement.setDouble(3,transaction.getAmount());
-        preparedStatement.setInt(4,transaction.getAccount().getAccountId());
+        preparedStatement.setTimestamp(4, Timestamp.valueOf(transaction.getDate()));
+        preparedStatement.setInt(5,transaction.getAccount().getAccountId());
         preparedStatement.execute();
         log.debug("Transaction saved");
     }
@@ -38,8 +40,9 @@ public class TransactionDa implements AutoCloseable {
 
         preparedStatement.setString(1,transaction.getTransactionType().name());
         preparedStatement.setDouble(2,transaction.getAmount());
-        preparedStatement.setInt(3,transaction.getAccount().getAccountId());
-        preparedStatement.setLong(4,transaction.getTransactionid());
+        preparedStatement.setTimestamp(3, Timestamp.valueOf(transaction.getDate()));
+        preparedStatement.setInt(4,transaction.getAccount().getAccountId());
+        preparedStatement.setLong(5,transaction.getTransactionid());
         preparedStatement.execute();
     }
     public void deleteTransaction(Transaction transaction) throws Exception {
