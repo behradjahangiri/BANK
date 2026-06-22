@@ -2,6 +2,8 @@ package model.bl;
 
 import model.da.TransactionDa;
 import model.entity.Transaction;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
 
@@ -17,6 +19,7 @@ public class TransactionBl
             if (transactionDa.findTransactionById(transaction.getTransactionid()) != null) {
                 throw new Exception("Transaction already exists");
             }
+            transaction.setDate(LocalDateTime.now());
             transactionDa.saveTransaction(transaction);
         }
         return null;
