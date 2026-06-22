@@ -29,7 +29,7 @@
 --     transactionid number primary key ,
 --     transactiontype nvarchar2(10),
 --     amount float,
---     transactiondate date,
+--     transactiondate timestamp,
 --     accountid number,
 --     foreign key (accountid) references account(accountid)
 -- );
@@ -43,8 +43,8 @@
 --     transaction_table.transactiontype        AS transaction_type,
 --     transaction_table.amount                 AS amount,
 --     transaction_table.transactiondate        AS transaction_date,
---     transaction_table.accountid              AS transaction_account_id,
---
+--     transaction_table.accountid              AS transaction_account_id;
+
 --     -- تمام فیلدهای ACCOUNT (حساب)
 --     account_table.ACCOUNTID              AS account_id,
 --     account_table.balance                    AS account_balance,

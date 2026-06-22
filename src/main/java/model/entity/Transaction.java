@@ -3,6 +3,7 @@ package model.entity;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,7 +16,7 @@ public class Transaction {
     private long transactionid;
     private TransactionType transactionType;
     private double amount;
-    private LocalDate date;
+    private LocalDateTime date;
     private Account account;
 //    private Account sourceaccount;
 //    private Account targetAccount;

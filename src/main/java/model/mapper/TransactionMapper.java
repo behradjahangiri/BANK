@@ -108,7 +108,7 @@ public class TransactionMapper {
                 .transactionid(resultSet.getLong("transaction_id"))
                 .transactionType(TransactionType.valueOf(resultSet.getString("transaction_type")))
                 .amount(resultSet.getFloat("amount"))
-                .date(resultSet.getDate("transaction_date").toLocalDate())
+                .date(resultSet.getTimestamp("transaction_date").toLocalDateTime())
                 .account(account)
                 .build();
     }
