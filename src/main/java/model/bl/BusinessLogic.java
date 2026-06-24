@@ -1,10 +1,9 @@
 package model.bl;
 
-import model.entity.Transaction;
-
 import java.util.List;
 
 public interface BusinessLogic<T, I> {
+
     T save(T t) throws Exception;
 
     T update(T t) throws Exception;
