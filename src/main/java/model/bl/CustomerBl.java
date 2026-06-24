@@ -23,7 +23,7 @@ public class CustomerBl implements BusinessLogic<Customer, Integer>{
             }
             customerDa.saveCustomer(customer);
         }
-        return null;
+        return customer;
     }
 
     @Override

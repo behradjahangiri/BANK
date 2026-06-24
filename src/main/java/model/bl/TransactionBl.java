@@ -22,7 +22,7 @@ public class TransactionBl
             transaction.setDate(LocalDateTime.now());
             transactionDa.saveTransaction(transaction);
         }
-        return null;
+        return transaction;
     }
 
 //    @Override

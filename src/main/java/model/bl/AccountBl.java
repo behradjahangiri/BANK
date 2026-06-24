@@ -23,7 +23,7 @@ public class AccountBl implements BusinessLogic<Account, Integer>{
             }
             accountDa.saveAccount(account);
         }
-        return null;
+        return account;
     }
 
     @Override
