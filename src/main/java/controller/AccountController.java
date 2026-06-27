@@ -1,7 +1,6 @@
 package controller;
 
 import lombok.Getter;
-import lombok.extern.java.Log;
 import model.bl.AccountBl;
 import model.entity.Account;
 import model.entity.Customer;
@@ -18,12 +17,11 @@ public class AccountController {
 
     private AccountController() {}
 
-    public Response save(int accountId, double balance, LocalDate openDate, String status, Customer customer) {
+    public Response save(double balance, LocalDate openDate, String status, Customer customer) {
     try {
         Account account =
                 Account
                         .builder()
-                        .accountId(accountId)
                         .balance(balance)
                         .openDate(openDate)
                         .status(status)
@@ -37,16 +35,47 @@ public class AccountController {
         return new Response(ResponseStatus.Failure, e.getMessage());
     }
 }
-    public String update() {
-        return null;
+    public Response update(int accountId, double balance, LocalDate openDate, String status, Customer customer) {
+        try {
+            Account account =
+                    Account
+                            .builder()
+                            .accountId(accountId)
+                            .balance(balance)
+                            .openDate(openDate)
+                            .status(status)
+                            .customer(customer)
+                            .build();
+            AccountBl.getInstance().update(account);
+            log.info("Account edited");
+            return new Response(ResponseStatus.Success, "Account has been edited", account);
+        } catch (Exception e) {
+            log.error("Account edit failed");
+            return new Response(ResponseStatus.Failure, e.getMessage());
+        }
     }
-    public String delete() {
-        return null;
+    public Response delete(int id) {
+        try {
+            Account account = AccountBl.getInstance().delete(id);
+            return new Response(ResponseStatus.Success, "Account has been deleted", account);
+        } catch (Exception e) {
+            return new Response(ResponseStatus.Failure, e.getMessage());
+        }
     }
-    public List<Account> findAll() {
-        return null;
+    public Response findAll() {
+       try {
+           return new Response(ResponseStatus.Success,"FindAll",AccountBl.getInstance().findAll());
+       }catch (Exception e) {
+           log.error("FindAll failed");
+           return new Response(ResponseStatus.Failure, e.getMessage());
+       }
     }
-    public Account findById(int id) {
-        return null;
+    public Response findById(int id) {
+        try {
+            return new Response(ResponseStatus.Success,"FindById : "+id,AccountBl.getInstance().findById(id));
+        } catch (Exception e) {
+            log.error("FindById failed");
+            return new Response(ResponseStatus.Failure, e.getMessage());
+        }
     }
 }
