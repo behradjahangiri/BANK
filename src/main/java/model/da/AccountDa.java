@@ -27,7 +27,7 @@ public class AccountDa implements AutoCloseable {
         preparedStatement.setString(4, account.getStatus());
         preparedStatement.setLong(5, account.getCustomer().getId());
         preparedStatement.execute();
-        log.debug("account saved");
+//        log.debug("account saved");
     }
 
     public void updateAccount(Account account) throws Exception {
