@@ -42,7 +42,7 @@ public class AccountDa implements AutoCloseable {
         preparedStatement.setLong(4, account.getCustomer().getId());
         preparedStatement.setInt(5, account.getAccountId());
         preparedStatement.execute();
-        log.debug("account edited");
+//        log.debug("account edited");
     }
 
     public void deleteAccount(int accountid) throws Exception {
@@ -52,7 +52,7 @@ public class AccountDa implements AutoCloseable {
         );
         preparedStatement.setInt(1, accountid);
         preparedStatement.execute();
-        log.debug("account deleted");
+//        log.debug("account deleted");
     }
 
     public List<Account> findAllAccount() throws Exception {
@@ -66,7 +66,7 @@ public class AccountDa implements AutoCloseable {
             Account account = accountMapper.recordToAccount(resultSet);
             account.setAccountId(resultSet.getInt("ACCOUNTid"));
         }
-        log.debug("select all account");
+//        log.debug("select all account");
         return accountList;
     }
 
@@ -78,7 +78,7 @@ public class AccountDa implements AutoCloseable {
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         Account account = accountMapper.recordToAccount(resultSet);
-        log.debug("select account by id");
+//        log.debug("select account by id");
         return account;
     }
 
