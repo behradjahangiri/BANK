@@ -2,7 +2,6 @@ package model.bl;
 
 import model.da.TransactionDa;
 import model.entity.Transaction;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;
