@@ -19,7 +19,7 @@ public class TransactionBl
             if (transactionDa.findTransactionById(transaction.getTransactionid()) != null) {
                 throw new Exception("Transaction already exists");
             }
-            transaction.setDate(LocalDateTime.now());
+            transaction.setDateTime(LocalDateTime.now());
             transactionDa.saveTransaction(transaction);
         }
         return transaction;
@@ -39,7 +39,7 @@ public class TransactionBl
     }
 
 //    @Override
-    public Transaction delete(Integer id) throws Exception {
+    public Transaction delete(long id) throws Exception {
         return null;
     }
 
@@ -62,7 +62,7 @@ public class TransactionBl
     }
 
 //    @Override
-    public Transaction findById(Integer id) throws Exception {
+    public Transaction findById(long id) throws Exception {
         try (TransactionDa transactionDa = new TransactionDa()) {
             if (transactionDa.findTransactionById(id) == null) {
                 throw new Exception("Transaction id not found");
