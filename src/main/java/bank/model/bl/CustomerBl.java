@@ -70,5 +70,10 @@ public class CustomerBl implements BusinessLogic<Customer, Integer>{
             return customerDa.findCustomerById(id);
         }
     }
+    public Customer findByUserName(String userName) throws Exception{
+        try (CustomerDa customerDa = new CustomerDa()) {
+            return customerDa.findCustomerByUsername(userName);
+        }
+    }
 
 }

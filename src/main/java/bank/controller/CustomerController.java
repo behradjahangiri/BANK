@@ -96,5 +96,17 @@ public class CustomerController {
             return new Response(ResponseStatus.Failure, e.getMessage());
         }
     }
+    public Response findByUsername(String username)
+    {
+        try {
+            log.debug("select Customer by username");
+            return new Response(ResponseStatus.Success,"FindByUsername : "
+                    +username,CustomerBl.getInstance().findByUserName(username));
+        } catch (Exception e) {
+            log.error("FindByUsername failed user not found");
+            return new Response(ResponseStatus.Failure, e.getMessage());
+        }
+
+    }
 }
 
