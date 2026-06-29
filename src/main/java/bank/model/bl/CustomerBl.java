@@ -75,5 +75,20 @@ public class CustomerBl implements BusinessLogic<Customer, Integer>{
             return customerDa.findCustomerByUsername(userName);
         }
     }
+    public Customer login(String username, String password) throws Exception{
+        try (CustomerDa customerDa = new CustomerDa()) {
+            if (customerDa.findCustomerByUsername(username) == null) {
+                throw new Exception("Account with id = " + username + " Not exists !!!");
+            }
+            else if (password.equals(customerDa.findCustomerByUsername(username).getPassword()))
+            {
+                return customerDa.findCustomerByUsername(username);
+            }
+            else
+            {
+                throw new Exception("Wrong Password !!!");
+            }
+        }
+    }
 
 }
