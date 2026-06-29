@@ -108,6 +108,21 @@ public class CustomerDa implements AutoCloseable {
         log.debug("select customer by nationllid");
         return customer;
     }
+    public Customer findCustomerByUsername(String username)  throws Exception {
+        connection = ConnectionProvider.getInstance().getConnection();
+        preparedStatement = connection.prepareStatement(
+                "select * from CUSTOMER where USERNAME=?"
+        );
+        preparedStatement.setString(1, username);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Customer customer = null;
+        if (resultSet.next()) {
+            customer = customerMapper.recordToCustomer(resultSet);
+        }
+        log.debug("select customer by username");
+        return customer;
+    }
+
     @Override
     public void close() throws Exception {
         preparedStatement.close();
