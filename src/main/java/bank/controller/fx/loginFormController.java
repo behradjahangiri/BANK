@@ -19,6 +19,8 @@ public class loginFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        log.info("Login Form loaded");
     }
+//    loginButton
+
 }
