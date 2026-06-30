@@ -34,9 +34,8 @@ public class Account {
         return null;
     }
 
-    private void addTransaction(){
+    private void Transfer(){
     }
-
     private double chech(){
         return this.balance;
     }
