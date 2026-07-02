@@ -11,7 +11,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.extern.slf4j.Slf4j;
-
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -41,7 +40,10 @@ public class AccountSelectionFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("AccountSelectionFormController loaded");
-//        showDataOnTableView(AccountController.getInstance().findAll());
+        transactionButton.setOnAction(event -> {});
+        freezeButton.setOnAction(event -> {});
+        logoutButton.setOnAction(event -> {});
+        resetTableView();
     }
 
 
@@ -53,7 +55,13 @@ public class AccountSelectionFormController implements Initializable {
         openDateColumn.setCellValueFactory(new PropertyValueFactory<Account, LocalDate>("openDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<Account, String>("status"));
         accountTable.setItems(accountObservableList);
+    }
+//        showDataOnTableView((List<Account>) AccountController.getInstance().findAll());
+
+    private void resetTableView(){
         accountTable.getItems().clear();
+        showDataOnTableView((List<Account>) AccountController.getInstance().findAll().getData());
+
     }
 
 
