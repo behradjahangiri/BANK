@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
@@ -21,6 +22,12 @@ public class AccountSelectionFormController implements Initializable {
 
     @FXML
     private Button logoutButton, transactionButton,freezeButton;
+
+    @FXML
+    private TextField accountTextField;
+
+    @FXML
+    private TableView<Account> accountTableView;
 
     @FXML
     private TableView<Account> accountTable;
@@ -40,9 +47,19 @@ public class AccountSelectionFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("AccountSelectionFormController loaded");
-        transactionButton.setOnAction(event -> {});
+        transactionButton.setOnAction(event -> {
+            if (accountTable.getSelectionModel().getSelectedItem() != null) {
+//                اینجا باید اکانت انتخاب شده به صفحه ی سرویس ها بره
+            }
+        });
         freezeButton.setOnAction(event -> {});
         logoutButton.setOnAction(event -> {});
+        accountTable.setOnMouseReleased(event -> {
+            Account account = accountTable.getSelectionModel().getSelectedItem();
+            if (account != null) {
+                accountTextField.setText(String.valueOf(account.getAccountId()));
+            }
+        });
         resetTableView();
     }
 
