@@ -2,14 +2,13 @@ package bank.controller.fx;
 
 import bank.controller.AccountController;
 import bank.model.entity.Account;
+import bank.model.entity.Response;
+import bank.model.entity.ResponseStatus;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
@@ -25,9 +24,6 @@ public class AccountSelectionFormController implements Initializable {
 
     @FXML
     private TextField accountTextField;
-
-    @FXML
-    private TableView<Account> accountTableView;
 
     @FXML
     private TableView<Account> accountTable;
@@ -79,6 +75,20 @@ public class AccountSelectionFormController implements Initializable {
         accountTable.getItems().clear();
         showDataOnTableView((List<Account>) AccountController.getInstance().findAll().getData());
 
+    }
+
+    private void showAlert(Response response)
+    {
+        if (response.getResponseStatus().equals(ResponseStatus.Success))
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION,response.getMessage(), ButtonType.OK);
+            alert.show();
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR,response.getMessage(), ButtonType.OK);
+            alert.show();
+        }
     }
 
 
