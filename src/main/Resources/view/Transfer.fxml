@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="594.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bank.controller.fx.TransferFormController">
+   <children>
+      <Button fx:id="transferButton" layoutX="262.0" layoutY="467.0" mnemonicParsing="false" text="Transfer" />
+      <Button fx:id="backButton" layoutX="531.0" layoutY="497.0" mnemonicParsing="false" text="Back" />
+      <TextField fx:id="destinationAccountTextField" layoutX="210.0" layoutY="241.0" />
+      <TextField fx:id="sourceAccountTextField" layoutX="209.0" layoutY="67.0" />
+      <TextField fx:id="amountTextField" layoutX="209.0" layoutY="309.0" />
+      <Label layoutX="77.0" layoutY="72.0" text="Source Account" />
+      <Label layoutX="51.0" layoutY="246.0" text="Destination Account" />
+      <Label layoutX="89.0" layoutY="314.0" text="Amount" />
+      <TextField fx:id="sourceAccountBalanceTextField" layoutX="209.0" layoutY="115.0" />
+      <Text layoutX="51.0" layoutY="135.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Source Account Balance" />
+   </children>
+</Pane>
