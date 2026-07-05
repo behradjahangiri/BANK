@@ -25,7 +25,17 @@ public class AccountServicesFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         log.info("AccountServicesFormController loaded");
         withdrawButton.setOnAction(event -> {});
-        transferButton.setOnAction(event -> {});
+        transferButton.setOnAction(event -> {
+            try {
+                Scene scene = new Scene(
+                        FXMLLoader.load(getClass().getResource("/view/Transfer.fxml"))
+                );
+            } catch (IOException e) {
+//                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
+//                    alert.show();
+                throw new RuntimeException(e);
+            }
+        });
         transactionButton.setOnAction(event -> {
             try {
                 Scene scene = new Scene(
