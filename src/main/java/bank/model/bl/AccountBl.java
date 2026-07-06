@@ -71,4 +71,23 @@ public class AccountBl implements BusinessLogic<Account, Integer>{
         }
     }
 
+    public void deposit(Integer accountId,Double amount) throws Exception{
+        try (AccountDa accountDa = new AccountDa())
+        {
+            accountDa.deposit(accountId, amount);
+        }
+    }
+    public void withdraw(Integer accountId,Double amount) throws Exception{
+        try (AccountDa accountDa = new AccountDa())
+            {
+            accountDa.withdraw(accountId, amount);
+            }
+    }
+    public Double getBalance(Integer accountId) throws Exception{
+        try (AccountDa accountDa = new AccountDa())
+            {
+            return accountDa.getBalance(accountId);
+            }
+    }
+
 }
