@@ -21,23 +21,5 @@ public class Account {
     private String status;
     private Customer customer;
 
-//    class list check bashe
-
     private List<Transaction> transactions;
-
-
-    private Account deposit(){
-        return null;
-    }
-
-    private Account withdraw(){
-        return null;
-    }
-
-    private void Transfer(){
-    }
-    private double chech(){
-        return this.balance;
-    }
-
 }
