@@ -13,14 +13,14 @@ public class TransactionController {
     private TransactionController() {}
 
     public Response save(TransactionType transactionType,
-                         double amount, LocalDateTime dateTime, Account account) {
+                         double amount, Account account) {
         try {
             Transaction transaction =
                     Transaction
                             .builder()
                             .transactionType(transactionType)
                             .amount(amount)
-                            .dateTime(dateTime)
+                            .dateTime(LocalDateTime.now())
                             .account(account)
                             .build();
             TransactionBl.getInstance().save(transaction);
@@ -32,7 +32,7 @@ public class TransactionController {
         }
     }
     public Response update(long transactionId, TransactionType transactionType,
-                         double amount, LocalDateTime dateTime, Account account) {
+                         double amount, Account account) {
         try {
             Transaction transaction =
                     Transaction
@@ -40,7 +40,7 @@ public class TransactionController {
                             .transactionid(transactionId)
                             .transactionType(transactionType)
                             .amount(amount)
-                            .dateTime(dateTime)
+                            .dateTime(LocalDateTime.now())
                             .account(account)
                             .build();
             TransactionBl.getInstance().update(transaction);
