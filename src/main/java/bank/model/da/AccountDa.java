@@ -82,6 +82,43 @@ public class AccountDa implements AutoCloseable {
         return account;
     }
 
+    public Double getBalance(int accountId) throws Exception {
+        connection = ConnectionProvider.getInstance().getConnection();
+        preparedStatement = connection.prepareStatement(
+                "SELECT balance FROM account WHERE ACCOUNTID=?"
+        );
+        preparedStatement.setInt(1, accountId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            return resultSet.getDouble("balance");
+        }
+        else {
+            return 0.0;
+        }
+    }
+    public void deposit(int accountId, double amount) throws Exception {
+        AccountDa accountDa = new AccountDa();
+        Double NewBalance = accountDa.getBalance(accountId) + amount;
+        connection = ConnectionProvider.getInstance().getConnection();
+        preparedStatement = connection.prepareStatement(
+                "UPDATE account SET BALANCE=? where ACCOUNTID=?"
+        );
+        preparedStatement.setDouble(1, NewBalance);
+        preparedStatement.setInt(2, accountId);
+
+    }
+
+    public void withdraw(int accountId, double amount) throws Exception {
+        AccountDa accountDa = new AccountDa();
+        Double NewBalance = accountDa.getBalance(accountId) - amount;
+        connection = ConnectionProvider.getInstance().getConnection();
+        preparedStatement = connection.prepareStatement(
+                "UPDATE account SET BALANCE=? where ACCOUNTID=?"
+        );
+        preparedStatement.setDouble(1, NewBalance);
+        preparedStatement.setInt(2, accountId);
+    }
+
 
     @Override
     public void close() throws Exception {
