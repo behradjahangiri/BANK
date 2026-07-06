@@ -80,4 +80,34 @@ public class AccountController {
             return new Response(ResponseStatus.Failure, e.getMessage());
         }
     }
+//    public Response deposit(Integer accountId, double amount)
+//    {
+//        try {
+//            log.debug("deposit account");
+//            return new Response(ResponseStatus.Success,"deposit from account : "+accountId,AccountBl.getInstance().deposit(accountId,amount));
+//        } catch (Exception e) {
+//            log.error("deposit failed");
+//            return new Response(ResponseStatus.Failure, e.getMessage());
+//        }
+//    }
+//    public Response withdraw(Integer accountId, double amount)
+//    {
+//        try {
+//            log.debug("withdraw account");
+//            return new Response(ResponseStatus.Success,"withdraw from account : "+accountId,AccountBl.getInstance().withdraw(accountId,amount));
+//        } catch (Exception e) {
+//            log.error("withdraw failed");
+//            return new Response(ResponseStatus.Failure, e.getMessage());
+//        }
+//    }
+    public Response getBalance(Integer accountId)
+    {
+        try {
+            log.debug("get balance account");
+            return new Response(ResponseStatus.Success,"get balance account : "+accountId,AccountBl.getInstance().getBalance(accountId));
+        } catch (Exception e) {
+            log.error("getBalance failed");
+            return new Response(ResponseStatus.Failure, e.getMessage());
+        }
+    }
 }
