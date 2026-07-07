@@ -42,11 +42,16 @@ public class LoginFormController implements Initializable {
                             FXMLLoader.load(getClass().getResource("/view/accountSelection.fxml"))
                     );
                 } catch (IOException e) {
-//                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-//                    alert.show();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
+                    alert.show();
                     throw new RuntimeException(e);
                 }
-            };
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Invalid username or password",ButtonType.OK);
+                alert.showAndWait();
+            }
         });
     }
 
