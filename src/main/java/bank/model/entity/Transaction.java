@@ -17,6 +17,4 @@ public class Transaction {
     private double amount;
     private LocalDateTime dateTime;
     private Account account;
-//    private Account sourceaccount;
-//    private Account targetAccount;
 }
