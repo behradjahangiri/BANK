@@ -80,26 +80,28 @@ public class AccountController {
             return new Response(ResponseStatus.Failure, e.getMessage());
         }
     }
-//    public Response deposit(Integer accountId, double amount)
-//    {
-//        try {
-//            log.debug("deposit account");
-//            return new Response(ResponseStatus.Success,"deposit from account : "+accountId,AccountBl.getInstance().deposit(accountId,amount));
-//        } catch (Exception e) {
-//            log.error("deposit failed");
-//            return new Response(ResponseStatus.Failure, e.getMessage());
-//        }
-//    }
-//    public Response withdraw(Integer accountId, double amount)
-//    {
-//        try {
-//            log.debug("withdraw account");
-//            return new Response(ResponseStatus.Success,"withdraw from account : "+accountId,AccountBl.getInstance().withdraw(accountId,amount));
-//        } catch (Exception e) {
-//            log.error("withdraw failed");
-//            return new Response(ResponseStatus.Failure, e.getMessage());
-//        }
-//    }
+    public Response deposit(Integer accountId, double amount)
+    {
+        try {
+            log.debug("deposit account");
+            AccountBl.getInstance().deposit(accountId,amount);
+            return new Response(ResponseStatus.Success,"deposit from account : "+accountId);
+        } catch (Exception e) {
+            log.error("deposit failed");
+            return new Response(ResponseStatus.Failure, e.getMessage());
+        }
+    }
+    public Response withdraw(Integer accountId, double amount)
+    {
+        try {
+            log.debug("withdraw account");
+            AccountBl.getInstance().withdraw(accountId,amount);
+            return new Response(ResponseStatus.Success,"withdraw from account : "+accountId,AccountBl.getInstance().findById(accountId));
+        } catch (Exception e) {
+            log.error("withdraw failed");
+            return new Response(ResponseStatus.Failure, e.getMessage());
+        }
+    }
     public Response getBalance(Integer accountId)
     {
         try {
