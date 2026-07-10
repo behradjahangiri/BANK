@@ -6,6 +6,8 @@ import bank.model.entity.Account;
 import bank.model.entity.Customer;
 import bank.model.entity.Response;
 import bank.model.entity.ResponseStatus;
+import bank.model.tools.FormLoader;
+import bank.model.tools.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,7 +22,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 @Slf4j
+
 public class LoginFormController implements Initializable {
     @FXML
     private TextField userIdTextField;
@@ -29,6 +33,7 @@ public class LoginFormController implements Initializable {
     @FXML
     private Button loginButton;
 
+    FormLoader formloader =  new FormLoader();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("Login Form loaded");
@@ -38,9 +43,8 @@ public class LoginFormController implements Initializable {
             if (login(userId, password))
             {
                 try {
-                    Scene scene = new Scene(
-                            FXMLLoader.load(getClass().getResource("/view/accountSelection.fxml"))
-                    );
+                        formloader.showFormAccountSelection();
+                    Session.customerId = userId;
                 } catch (IOException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
                     alert.show();

@@ -1,5 +1,6 @@
 package bank;
 
+import bank.model.tools.FormLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,12 +14,7 @@ public class FxApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         log.info("Starting bank.FxApp");
-
-        Scene scene = new Scene(
-                FXMLLoader.load(getClass().getResource("/view/login.fxml"))
-        );
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Login");
-        primaryStage.show();
+        FormLoader formloader =  new FormLoader();
+        formloader.showFormLogin();
     }
 }
