@@ -12,6 +12,6 @@ import lombok.*;
 
 public class Session {
     public static Integer customerId;
-    public static Double balance;
+    public static Double accountBalance;
     public static Account account;
 }
