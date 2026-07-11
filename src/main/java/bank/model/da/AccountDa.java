@@ -70,7 +70,7 @@ public class AccountDa implements AutoCloseable {
         return accountList;
     }
 
-    public Account findAccountById(int id) throws Exception {
+    public Account findAccountById(Integer id) throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
                 "SELECT * FROM account WHERE ACCOUNTID=?"
