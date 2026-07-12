@@ -1,9 +1,10 @@
 package bank.controller.fx;
 
+import bank.model.entity.Account;
+import bank.model.tools.FormLoader;
+import bank.model.tools.Session;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import java.util.ResourceBundle;
 @Slf4j
 public class AccountServicesFormController implements Initializable {
 
+
     @FXML
     private TextField balanceTextField,accountTextField;
 
@@ -24,29 +26,33 @@ public class AccountServicesFormController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("AccountServicesFormController loaded");
+        Account account = Session.getAccount();
+        if (account != null) {
+            balanceTextField.setText(String.valueOf(account.getBalance()));
+            accountTextField.setText(String.valueOf(account.getAccountId()));
+        }
+
         withdrawButton.setOnAction(event -> {});
         transferButton.setOnAction(event -> {
             try {
-                Scene scene = new Scene(
-                        FXMLLoader.load(getClass().getResource("/view/Transfer.fxml"))
-                );
+                FormLoader formloader =  new FormLoader();
+                formloader.showFormTransfer();
             } catch (IOException e) {
 //                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
 //                    alert.show();
                 throw new RuntimeException(e);
             }
         });
-        transactionButton.setOnAction(event -> {
-            try {
-                Scene scene = new Scene(
-                        FXMLLoader.load(getClass().getResource("/view/Transaction.fxml"))
-                );
-            } catch (IOException e) {
-//                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-//                    alert.show();
-                throw new RuntimeException(e);
-            }
-        });
+//        transactionButton.setOnAction(event -> {
+//            try {
+//                FormLoader formloader =  new FormLoader();
+//                formloader.showFormAccountServices();
+//            } catch (IOException e) {
+////                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
+////                    alert.show();
+//                throw new RuntimeException(e);
+//            }
+//        });
         backButton.setOnAction(event -> {});
     }
 }
