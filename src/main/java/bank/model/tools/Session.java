@@ -1,17 +1,20 @@
 package bank.model.tools;
-
 import bank.model.entity.Account;
-import lombok.*;
 
-@Data
-@Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-@Setter
 
 public class Session {
     public static Integer customerId;
-    public static Double accountBalance;
     public static Account account;
+
+    public static Account getAccount() {
+        return account;
+    }
+
+    public static void setAccount(Account account) {
+        Session.account = account;
+    }
+
+    public static void logout() {
+        account = null;
+    }
 }
