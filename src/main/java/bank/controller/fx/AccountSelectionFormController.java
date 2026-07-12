@@ -4,6 +4,7 @@ import bank.controller.AccountController;
 import bank.model.entity.Account;
 import bank.model.entity.Response;
 import bank.model.entity.ResponseStatus;
+import bank.model.tools.FormLoader;
 import bank.model.tools.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -48,13 +50,19 @@ public class AccountSelectionFormController implements Initializable {
         transactionButton.setOnAction(event -> {
             if (accountTable.getSelectionModel().getSelectedItem() != null) {
                 Session.setAccount(accountTable.getSelectionModel().getSelectedItem());
-//                اینجا باید اکانت انتخاب شده به صفحه ی سرویس ها بره
+                try {
+                    FormLoader formloader =  new FormLoader();
+                    formloader.showFormAccountServices();
+                }catch (Exception e){
+                    throw new RuntimeException(e);
+                }
+            } else  {
+                showAlert(new Response(ResponseStatus.Failure, "Select Account"));
             }
         });
         freezeButton.setOnAction(event -> {});
         logoutButton.setOnAction(event -> {});
         accountTable.setOnMouseReleased(event -> {
-            Account account = accountTable.getSelectionModel().getSelectedItem();
             if (account != null) {
                 accountTextField.setText(String.valueOf(account.getAccountId()));
             }
