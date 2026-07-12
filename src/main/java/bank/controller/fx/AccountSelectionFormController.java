@@ -12,10 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -43,7 +43,6 @@ public class AccountSelectionFormController implements Initializable {
     @FXML
     private TableColumn<Account, String> statusColumn;
 
-    Account account = new Account();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("AccountSelectionFormController loaded");
@@ -53,6 +52,9 @@ public class AccountSelectionFormController implements Initializable {
                 try {
                     FormLoader formloader =  new FormLoader();
                     formloader.showFormAccountServices();
+                    // بستن همین صفحه
+                    Stage stage = (Stage) transactionButton.getScene().getWindow();
+                    stage.close();
                 }catch (Exception e){
                     throw new RuntimeException(e);
                 }
@@ -63,8 +65,9 @@ public class AccountSelectionFormController implements Initializable {
         freezeButton.setOnAction(event -> {});
         logoutButton.setOnAction(event -> {});
         accountTable.setOnMouseReleased(event -> {
-            if (account != null) {
-                accountTextField.setText(String.valueOf(account.getAccountId()));
+            Account selectedAccount = accountTable.getSelectionModel().getSelectedItem();
+            if (selectedAccount != null) {
+                accountTextField.setText(String.valueOf(selectedAccount.getAccountId()));
             }
         });
         resetTableView();
