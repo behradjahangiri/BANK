@@ -4,6 +4,7 @@ import bank.controller.AccountController;
 import bank.model.entity.Account;
 import bank.model.entity.Response;
 import bank.model.entity.ResponseStatus;
+import bank.model.tools.Session;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -40,11 +41,13 @@ public class AccountSelectionFormController implements Initializable {
     @FXML
     private TableColumn<Account, String> statusColumn;
 
+    Account account = new Account();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.info("AccountSelectionFormController loaded");
         transactionButton.setOnAction(event -> {
             if (accountTable.getSelectionModel().getSelectedItem() != null) {
+                Session.setAccount(accountTable.getSelectionModel().getSelectedItem());
 //                اینجا باید اکانت انتخاب شده به صفحه ی سرویس ها بره
             }
         });
