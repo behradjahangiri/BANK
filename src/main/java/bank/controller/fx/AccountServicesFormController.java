@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -37,6 +38,9 @@ public class AccountServicesFormController implements Initializable {
             try {
                 FormLoader formloader =  new FormLoader();
                 formloader.showFormTransfer();
+                // بستن صفحه فعلی
+                Stage stage = (Stage) transferButton.getScene().getWindow();
+                stage.close();
             } catch (IOException e) {
 //                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
 //                    alert.show();
