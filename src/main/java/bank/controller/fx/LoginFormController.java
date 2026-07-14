@@ -1,23 +1,17 @@
 package bank.controller.fx;
 
-import bank.controller.AccountController;
 import bank.controller.CustomerController;
-import bank.model.entity.Account;
 import bank.model.entity.Customer;
-import bank.model.entity.Response;
-import bank.model.entity.ResponseStatus;
 import bank.model.tools.FormLoader;
 import bank.model.tools.Session;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -43,8 +37,10 @@ public class LoginFormController implements Initializable {
             if (login(userId, password))
             {
                 try {
-                        formloader.showFormAccountSelection();
                     Session.customerId = userId;
+                    formloader.showFormAccountSelection();
+                    Stage stage = (Stage) loginButton.getScene().getWindow();
+                    stage.close();
                 } catch (IOException e) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
                     alert.show();
