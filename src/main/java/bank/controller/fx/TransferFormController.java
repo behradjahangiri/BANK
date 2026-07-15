@@ -62,13 +62,10 @@ public class TransferFormController implements Initializable {
         });
         backButton.setOnAction(event -> {
             try {
-
                 FormLoader formLoader = new FormLoader();
                 formLoader.showFormAccountSelection();
-
                 Stage stage = (Stage) backButton.getScene().getWindow();
                 stage.close();
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
