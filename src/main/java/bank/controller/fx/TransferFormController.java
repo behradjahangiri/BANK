@@ -4,6 +4,7 @@ import bank.controller.AccountController;
 import bank.controller.TransactionController;
 import bank.model.entity.Account;
 import bank.model.entity.TransactionType;
+import bank.model.tools.FormLoader;
 import bank.model.tools.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -56,6 +60,18 @@ public class TransferFormController implements Initializable {
             }
 
         });
-        backButton.setOnAction(event -> {});
+        backButton.setOnAction(event -> {
+            try {
+
+                FormLoader formLoader = new FormLoader();
+                formLoader.showFormAccountSelection();
+
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.close();
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
