@@ -57,6 +57,15 @@ public class AccountServicesFormController implements Initializable {
 //                throw new RuntimeException(e);
 //            }
 //        });
-        backButton.setOnAction(event -> {});
+        backButton.setOnAction(event -> {
+            try {
+                FormLoader formLoader = new FormLoader();
+                formLoader.showFormAccountSelection();
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }
