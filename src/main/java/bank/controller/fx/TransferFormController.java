@@ -4,13 +4,13 @@ import bank.controller.AccountController;
 import bank.controller.TransactionController;
 import bank.model.entity.Account;
 import bank.model.entity.TransactionType;
+import bank.model.tools.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -22,7 +22,7 @@ public class TransferFormController implements Initializable {
     @FXML
     private Button transferButton,backButton;
 
-    Account account ; //  باید از فرم قبلی به اینجا بیاد
+    Account account = Session.getAccount();
     Integer sourceAccount  = account.getAccountId();
     Double sourceAccountBalance = account.getBalance();
     Integer destinationAccount = Integer.valueOf(destinationAccountTextField.getText());
