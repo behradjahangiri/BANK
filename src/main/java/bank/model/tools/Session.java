@@ -13,6 +13,9 @@ public class Session {
     public static void setAccount(Account account) {
         Session.account = account;
     }
+    public static void setCustomerId(Integer customerId) {
+        Session.customerId = customerId;
+    }
 
     public static void logout() {
         account = null;
