@@ -75,12 +75,6 @@ public class LoginFormController implements Initializable {
         {
             return false;
         }
-        else if (customer.getPassword().equals(password) && customer.getId() == userId) {
-            return  true;
-        }
-        else
-        {
-            return false;
-        }
+        else return customer.getPassword().equals(password);
     }
 }
