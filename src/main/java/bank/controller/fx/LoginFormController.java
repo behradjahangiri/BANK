@@ -32,41 +32,47 @@ public class LoginFormController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         log.info("Login Form loaded");
         loginButton.setOnAction(event -> {
-            Integer  userId = Integer.parseInt(userIdTextField.getText());
-            String password = passwordTextField.getText();
-            if (login(userId, password))
-            {
+
+
+
+
                 try {
-                    Session.customerId = userId;
-                    formloader.showFormAccountSelection();
-                    Stage stage = (Stage) loginButton.getScene().getWindow();
-                    stage.close();
+                    Integer  userId = Integer.parseInt(userIdTextField.getText());
+                    String password = passwordTextField.getText();
+                    if (login(userId, password)) {
+                        Session.setCustomerId(userId);
+                        formloader.showFormAccountSelection();
+                        Stage stage = (Stage) loginButton.getScene().getWindow();
+                        stage.close();
+                    }
+                    else
+                    {
+                        Alert alert = new Alert(Alert.AlertType.ERROR,"Invalid username or password",ButtonType.OK);
+                        alert.showAndWait();
+                    }
+
                 } catch (IOException e) {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-                    alert.show();
-                    throw new RuntimeException(e);
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot load account selection page", ButtonType.OK);
+                    alert.showAndWait();
+
+
+                } catch (NumberFormatException e){
+                  Alert alert = new Alert(Alert.AlertType.WARNING, "User ID must be a number", ButtonType.OK);
+                  alert.showAndWait();
                 }
-            }
-            else
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR,"Invalid username or password",ButtonType.OK);
-                alert.showAndWait();
-            }
         });
     }
 
 
     private boolean login(Integer userId, String password) {
-        Customer customer = (Customer) CustomerController.getInstance().findById(userId).getData();
-        if(userId == 0 || password.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-            alert.show();
+
+        if(userId == null || userId.equals(0) || password == null || password.isEmpty() ) {
             return false;
         }
-        if (CustomerController.getInstance().findById(userId).getData() == null)
+        Customer customer = (Customer) CustomerController.getInstance().findById(userId).getData();
+
+        if (customer == null)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-            alert.show();
             return false;
         }
         else if (customer.getPassword().equals(password) && customer.getId() == userId) {
@@ -74,8 +80,6 @@ public class LoginFormController implements Initializable {
         }
         else
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-            alert.show();
             return false;
         }
     }
