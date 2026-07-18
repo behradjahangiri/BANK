@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -45,20 +44,25 @@ public class AccountSelectionFormController implements Initializable {
     @FXML
     private TableColumn<Account, String> statusColumn;
 
+    private final FormLoader formLoader = new FormLoader();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FormLoader formloader =  new FormLoader();
+//        FormLoader formloader =  new FormLoader();
         log.info("AccountSelectionFormController loaded");
         transactionButton.setOnAction(event -> {
             if (accountTable.getSelectionModel().getSelectedItem() != null) {
                 Session.setAccount(accountTable.getSelectionModel().getSelectedItem());
                 try {
-                    formloader.showFormAccountServices();
+//                    formloader.showFormAccountServices();
+                    formLoader.showFormAccountServices();
                     // بستن همین صفحه
                     Stage stage = (Stage) transactionButton.getScene().getWindow();
                     stage.close();
-                }catch (Exception e){
-                    throw new RuntimeException(e);
+                }catch (IOException e){
+                    log.error("Error loading formAccountServices",e);
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"Cannot open Account Services page.", ButtonType.OK);
+                    alert.showAndWait();
                 }
             } else  {
                 showAlert(new Response(ResponseStatus.Failure, "Select Account"));
@@ -67,15 +71,16 @@ public class AccountSelectionFormController implements Initializable {
         freezeButton.setOnAction(event -> {});
         logoutButton.setOnAction(event -> {
             try {
-                formloader.showFormLogin();
+//                formloader.showFormLogin();
+                formLoader.showFormLogin();
                 Session.setAccount(null);
                 Session.setCustomerId(null);
                 Stage stage = (Stage) logoutButton.getScene().getWindow();
                 stage.close();
                 log.info("customer logout");
             } catch (IOException e) {
-                log.error(e.getMessage());
-                Alert alert = new Alert(Alert.AlertType.ERROR,"Cannot open page call suport",ButtonType.CLOSE);
+                log.error("logout button not work",e);
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Cannot open page call suport",ButtonType.OK);
                 alert.showAndWait();
             }
 
