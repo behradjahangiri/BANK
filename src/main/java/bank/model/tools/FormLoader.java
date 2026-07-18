@@ -36,5 +36,12 @@ public class FormLoader {
         stage.show();
     }
 
+    public void showFormTransactions() throws IOException {
+        Stage stage = new Stage();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/view/Transactions.fxml")));
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 }
