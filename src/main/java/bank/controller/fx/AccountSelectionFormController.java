@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -45,12 +47,12 @@ public class AccountSelectionFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        FormLoader formloader =  new FormLoader();
         log.info("AccountSelectionFormController loaded");
         transactionButton.setOnAction(event -> {
             if (accountTable.getSelectionModel().getSelectedItem() != null) {
                 Session.setAccount(accountTable.getSelectionModel().getSelectedItem());
                 try {
-                    FormLoader formloader =  new FormLoader();
                     formloader.showFormAccountServices();
                     // بستن همین صفحه
                     Stage stage = (Stage) transactionButton.getScene().getWindow();
@@ -63,7 +65,21 @@ public class AccountSelectionFormController implements Initializable {
             }
         });
         freezeButton.setOnAction(event -> {});
-        logoutButton.setOnAction(event -> {});
+        logoutButton.setOnAction(event -> {
+            try {
+                formloader.showFormLogin();
+                Session.setAccount(null);
+                Session.setCustomerId(null);
+                Stage stage = (Stage) logoutButton.getScene().getWindow();
+                stage.close();
+                log.info("customer logout");
+            } catch (IOException e) {
+                log.error(e.getMessage());
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Cannot open page call suport",ButtonType.CLOSE);
+                alert.showAndWait();
+            }
+
+        });
         accountTable.setOnMouseReleased(event -> {
             Account selectedAccount = accountTable.getSelectionModel().getSelectedItem();
             if (selectedAccount != null) {
