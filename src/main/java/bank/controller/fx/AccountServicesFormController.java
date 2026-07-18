@@ -5,11 +5,12 @@ import bank.model.tools.FormLoader;
 import bank.model.tools.Session;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -26,6 +27,7 @@ public class AccountServicesFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        FormLoader formloader =  new FormLoader();
         log.info("AccountServicesFormController loaded");
         Account account = Session.getAccount();
         if (account != null) {
@@ -36,15 +38,16 @@ public class AccountServicesFormController implements Initializable {
         withdrawButton.setOnAction(event -> {});
         transferButton.setOnAction(event -> {
             try {
-                FormLoader formloader =  new FormLoader();
                 formloader.showFormTransfer();
+                log.info("Transfer Form loaded");
                 // بستن صفحه فعلی
                 Stage stage = (Stage) transferButton.getScene().getWindow();
                 stage.close();
             } catch (IOException e) {
-//                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-//                    alert.show();
-                throw new RuntimeException(e);
+                log.error("transfer error",e);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
+                alert.showAndWait();
+
             }
         });
 //        transactionButton.setOnAction(event -> {
@@ -61,10 +64,13 @@ public class AccountServicesFormController implements Initializable {
             try {
                 FormLoader formLoader = new FormLoader();
                 formLoader.showFormAccountSelection();
+                log.info("Account Selection loaded");
                 Stage stage = (Stage) backButton.getScene().getWindow();
                 stage.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.error("back button error",e);
+                Alert alert =  new Alert(Alert.AlertType.ERROR, "connot load AccountServices call suport",ButtonType.OK);
+                alert.showAndWait();
             }
         });
     }
