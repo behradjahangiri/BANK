@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
 
 @Slf4j
 public class AccountServicesFormController implements Initializable {
+    private final FormLoader formLoader = new FormLoader();
 
 
     @FXML
@@ -27,49 +28,62 @@ public class AccountServicesFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        FormLoader formloader =  new FormLoader();
         log.info("AccountServicesFormController loaded");
         Account account = Session.getAccount();
-        if (account != null) {
-            balanceTextField.setText(String.valueOf(account.getBalance()));
-            accountTextField.setText(String.valueOf(account.getAccountId()));
+        if (account == null) {
+            log.error("No account found in session");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No active account found. Returning to account selection.", ButtonType.OK);
+            alert.showAndWait();
+            try {
+                formLoader.showFormAccountSelection();
+                log.info("Returned to Account Selection form");
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.close();
+            } catch (IOException e){
+                log.error("Failed to return to Account Selection form", e);
+                Alert alert1 = new Alert(Alert.AlertType.ERROR,"Unable to return to Account Selection. Please contact support.", ButtonType.OK);
+                alert1.showAndWait();
+            }
+            return;
         }
+        balanceTextField.setText(String.valueOf(account.getBalance()));
+        accountTextField.setText(String.valueOf(account.getAccountId()));
 
         withdrawButton.setOnAction(event -> {});
         transferButton.setOnAction(event -> {
             try {
-                formloader.showFormTransfer();
-                log.info("Transfer Form loaded");
-                // بستن صفحه فعلی
+                formLoader.showFormTransfer();
+                log.info("transfer form loaded");
                 Stage stage = (Stage) transferButton.getScene().getWindow();
                 stage.close();
             } catch (IOException e) {
-                log.error("transfer error",e);
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
+                log.error("transfer button error",e);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot load the transfer form. Please contact support.", ButtonType.OK);
                 alert.showAndWait();
 
             }
         });
-//        transactionButton.setOnAction(event -> {
-//            try {
-//                FormLoader formloader =  new FormLoader();
-//                formloader.showFormAccountServices();
-//            } catch (IOException e) {
-////                    Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid username or password", ButtonType.OK);
-////                    alert.show();
-//                throw new RuntimeException(e);
-//            }
-//        });
+        transactionButton.setOnAction(event -> {
+            try {
+                formLoader.showFormTransactions();
+                log.info("transaction form loaded");
+                Stage stage = (Stage) transactionButton.getScene().getWindow();
+                stage.close();
+            } catch (IOException e) {
+                log.error("transaction button error",e);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot load the transaction form. Please contact support.", ButtonType.OK);
+                alert.showAndWait();
+            }
+        });
         backButton.setOnAction(event -> {
             try {
-                FormLoader formLoader = new FormLoader();
                 formLoader.showFormAccountSelection();
-                log.info("Account Selection loaded");
+                log.info("account Selection loaded");
                 Stage stage = (Stage) backButton.getScene().getWindow();
                 stage.close();
             } catch (IOException e) {
                 log.error("back button error",e);
-                Alert alert =  new Alert(Alert.AlertType.ERROR, "connot load AccountServices call suport",ButtonType.OK);
+                Alert alert =  new Alert(Alert.AlertType.ERROR, "Cannot load the Account Selection form. Please contact support.",ButtonType.OK);
                 alert.showAndWait();
             }
         });
