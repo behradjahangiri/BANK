@@ -3,7 +3,6 @@ package bank.model.tools;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class FormLoader {
@@ -39,6 +38,12 @@ public class FormLoader {
     public void showFormTransactions() throws IOException {
         Stage stage = new Stage();
         Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/view/Transactions.fxml")));
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void showFormWithdraw() throws IOException {
+        Stage stage = new Stage();
+        Scene scene = new Scene(FXMLLoader.load(getClass().getResource("/view/Withdraw.fxml")));
         stage.setScene(scene);
         stage.show();
     }
