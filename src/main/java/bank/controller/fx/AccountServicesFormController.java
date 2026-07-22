@@ -77,6 +77,7 @@ public class AccountServicesFormController implements Initializable {
         });
         backButton.setOnAction(event -> {
             try {
+                Session.setAccount(null);
                 formLoader.showFormAccountSelection();
                 log.info("account Selection loaded");
                 Stage stage = (Stage) backButton.getScene().getWindow();
