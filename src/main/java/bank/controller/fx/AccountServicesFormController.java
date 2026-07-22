@@ -49,7 +49,18 @@ public class AccountServicesFormController implements Initializable {
         balanceTextField.setText(String.valueOf(account.getBalance()));
         accountTextField.setText(String.valueOf(account.getAccountId()));
 
-        withdrawButton.setOnAction(event -> {});
+        withdrawButton.setOnAction(event -> {
+            try {
+                formLoader.showFormWithdraw();
+                log.info("withdraw form loaded");
+                Stage stage = (Stage) withdrawButton.getScene().getWindow();
+                stage.close();
+            } catch (IOException e) {
+                log.error("withdraw button error", e);
+                Alert alert = new Alert(Alert.AlertType.ERROR,"Cannot load withdraw form. Please contact support.", ButtonType.OK);
+                alert.showAndWait();
+            }
+        });
         transferButton.setOnAction(event -> {
             try {
                 formLoader.showFormTransfer();
@@ -60,7 +71,6 @@ public class AccountServicesFormController implements Initializable {
                 log.error("transfer button error",e);
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Cannot load the transfer form. Please contact support.", ButtonType.OK);
                 alert.showAndWait();
-
             }
         });
         transactionButton.setOnAction(event -> {
