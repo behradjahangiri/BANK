@@ -34,8 +34,6 @@ public class LoginFormController implements Initializable {
         loginButton.setOnAction(event -> {
 
 
-
-
                 try {
                     Integer  userId = Integer.parseInt(userIdTextField.getText());
                     String password = passwordTextField.getText();
