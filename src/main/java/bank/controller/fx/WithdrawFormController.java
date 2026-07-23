@@ -33,13 +33,20 @@ public class WithdrawFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        accountTextField.setText(String.valueOf(sourceAccountId));
+        balanceTextField.setText(String.valueOf(sourceAccountBalance));
         withdrawButton.setOnMouseClicked(event -> {
             try {
                 double amount = Double.parseDouble(amountTextField.getText());
                 AccountController.getInstance().withdraw(sourceAccountId,amount);
                 TransactionController.getInstance().save(TransactionType.Withdraw,amount,account);
+
+            } catch (NumberFormatException e){
+                log.error("Invalid amount", e);
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Please enter a valid amount", ButtonType.OK);
+                alert.showAndWait();
             } catch (Exception e) {
-                log.error("withdraw did not work");
+                log.error("withdraw did not work",e);
                 Alert alert = new Alert(Alert.AlertType.ERROR,"withdraw did not work",ButtonType.OK);
                 alert.showAndWait();
             }
