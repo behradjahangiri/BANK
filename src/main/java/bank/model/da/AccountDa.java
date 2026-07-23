@@ -105,7 +105,7 @@ public class AccountDa implements AutoCloseable {
         );
         preparedStatement.setDouble(1, NewBalance);
         preparedStatement.setInt(2, accountId);
-
+        preparedStatement.executeUpdate();
     }
 
     public void withdraw(int accountId, double amount) throws Exception {
@@ -117,6 +117,7 @@ public class AccountDa implements AutoCloseable {
         );
         preparedStatement.setDouble(1, NewBalance);
         preparedStatement.setInt(2, accountId);
+        preparedStatement.executeUpdate();
     }
 
 
