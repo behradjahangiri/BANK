@@ -13,11 +13,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@Slf4j
 public class TransferFormController implements Initializable {
 
     @FXML
@@ -30,7 +32,7 @@ public class TransferFormController implements Initializable {
     Integer sourceAccount  = account.getAccountId();
     Double sourceAccountBalance = account.getBalance();
     Integer destinationAccount = Integer.valueOf(destinationAccountTextField.getText());
-    Double amount = Double.valueOf(String.valueOf(amountTextField));
+    Double amount = Double.valueOf(amountTextField.getText());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,7 +69,9 @@ public class TransferFormController implements Initializable {
                 Stage stage = (Stage) backButton.getScene().getWindow();
                 stage.close();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                log.error("cannot load AccountService in back Button",e);
+                Alert alert = new Alert(Alert.AlertType.ERROR,"cannot load AccountService Form call support", ButtonType.OK);
+                alert.showAndWait();
             }
         });
     }
