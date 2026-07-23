@@ -40,6 +40,17 @@ public class WithdrawFormController implements Initializable {
                 double amount = Double.parseDouble(amountTextField.getText());
                 AccountController.getInstance().withdraw(sourceAccountId,amount);
                 TransactionController.getInstance().save(TransactionType.Withdraw,amount,account);
+                try {
+                    FormLoader formLoader = new FormLoader();
+                    formLoader.showFormAccountServices();
+                    Stage stage = (Stage) withdrawButton.getScene().getWindow();
+                    stage.close();
+                }  catch (IOException e) {
+                    log.error("cannot load AccountService in withdraw Button",e);
+                    Alert alert = new Alert(Alert.AlertType.ERROR,"cannot load AccountService Form call support", ButtonType.OK);
+                    alert.showAndWait();
+                }
+
 
             } catch (NumberFormatException e){
                 log.error("Invalid amount", e);
