@@ -14,7 +14,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,17 +27,20 @@ public class TransferFormController implements Initializable {
     @FXML
     private Button transferButton,backButton;
 
-    Account account = Session.getAccount();
-    Integer sourceAccount  = account.getAccountId();
-    Double sourceAccountBalance = account.getBalance();
-    Integer destinationAccount = Integer.valueOf(destinationAccountTextField.getText());
-    Double amount = Double.valueOf(amountTextField.getText());
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Account account = Session.getAccount();
+        Integer sourceAccount  = account.getAccountId();
+        Double sourceAccountBalance = account.getBalance();
+        sourceAccountBalanceTextField.setText(String.valueOf(sourceAccountBalance));
+
 
         transferButton.setOnAction(event ->
         {
+            Integer destinationAccount = Integer.valueOf(destinationAccountTextField.getText());
+            Double amount = Double.valueOf(amountTextField.getText());
             if (sourceAccountTextField.getText().isEmpty() || destinationAccountTextField.getText().isEmpty() || amountTextField.getText().isEmpty())
             {
                 Alert alert = new Alert(Alert.AlertType.WARNING,"Please fill all the fields", ButtonType.OK);
@@ -47,14 +49,14 @@ public class TransferFormController implements Initializable {
             else if (AccountController.getInstance().findById(destinationAccount) == null)
             {
                 Alert alert = new Alert(Alert.AlertType.WARNING,"Account does not exist", ButtonType.OK);
+                alert.showAndWait();
             }
             else if (sourceAccountBalance < amount)
             {
                 Alert alert = new Alert(Alert.AlertType.WARNING,"You dont have this amount in this Account",ButtonType.OK);
                 alert.showAndWait();
             }
-            else if(sourceAccountBalance > amount )
-            {
+            else {
                 AccountController.getInstance().withdraw(sourceAccount,amount);
                 AccountController.getInstance().deposit(destinationAccount,amount);
                 TransactionController.getInstance().save(TransactionType.Withdraw,amount,account);
