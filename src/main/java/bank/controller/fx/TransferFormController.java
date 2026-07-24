@@ -54,19 +54,19 @@ public class TransferFormController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.WARNING,"Account does not exist", ButtonType.OK);
                         alert.showAndWait();
                     }
-                    else if (sourceAccountBalance < amount)
-                    {
-                        Alert alert = new Alert(Alert.AlertType.WARNING,"You dont have this amount in this Account",ButtonType.OK);
-                        alert.showAndWait();
-                    }
                     else if (amount <= 0)
                     {
                         Alert alert = new Alert(Alert.AlertType.WARNING,"amount can not be - or 0 ",ButtonType.OK);
                         alert.showAndWait();
                     }
-                    else if (sourceAccount.equals(destinationAccount))
+                    else if (sourceAccountBalance < amount)
                     {
                         Alert alert = new Alert(Alert.AlertType.WARNING,"You dont have this amount in this Account",ButtonType.OK);
+                        alert.showAndWait();
+                    }
+                    else if (sourceAccount.equals(destinationAccount))
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING,"Source and destination accounts cannot be the same",ButtonType.OK);
                         alert.showAndWait();
                     }
                     else {
