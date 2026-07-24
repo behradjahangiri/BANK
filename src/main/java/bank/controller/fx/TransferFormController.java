@@ -28,9 +28,10 @@ public class TransferFormController implements Initializable {
     private Button transferButton,backButton;
 
 
-
+    private final FormLoader formLoader = new FormLoader();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         Account account = Session.getAccount();
         Integer sourceAccount  = account.getAccountId();
         Double sourceAccountBalance = account.getBalance();
@@ -39,34 +40,62 @@ public class TransferFormController implements Initializable {
 
         transferButton.setOnAction(event ->
         {
-            Integer destinationAccount = Integer.valueOf(destinationAccountTextField.getText());
-            Double amount = Double.valueOf(amountTextField.getText());
             if (sourceAccountTextField.getText().isEmpty() || destinationAccountTextField.getText().isEmpty() || amountTextField.getText().isEmpty())
             {
                 Alert alert = new Alert(Alert.AlertType.WARNING,"Please fill all the fields", ButtonType.OK);
                 alert.showAndWait();
             }
-            else if (AccountController.getInstance().findById(destinationAccount) == null)
-            {
-                Alert alert = new Alert(Alert.AlertType.WARNING,"Account does not exist", ButtonType.OK);
-                alert.showAndWait();
-            }
-            else if (sourceAccountBalance < amount)
-            {
-                Alert alert = new Alert(Alert.AlertType.WARNING,"You dont have this amount in this Account",ButtonType.OK);
-                alert.showAndWait();
-            }
             else {
-                AccountController.getInstance().withdraw(sourceAccount,amount);
-                AccountController.getInstance().deposit(destinationAccount,amount);
-                TransactionController.getInstance().save(TransactionType.Withdraw,amount,account);
-                TransactionController.getInstance().save(TransactionType.Deposit, amount, (Account) AccountController.getInstance().findById(destinationAccount).getData());
+                try {
+                    Integer destinationAccount = Integer.valueOf(destinationAccountTextField.getText());
+                    Double amount = Double.valueOf(amountTextField.getText());
+                    if (AccountController.getInstance().findById(destinationAccount) == null)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING,"Account does not exist", ButtonType.OK);
+                        alert.showAndWait();
+                    }
+                    else if (sourceAccountBalance < amount)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING,"You dont have this amount in this Account",ButtonType.OK);
+                        alert.showAndWait();
+                    }
+                    else if (amount <= 0)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING,"amount can not be - or 0 ",ButtonType.OK);
+                        alert.showAndWait();
+                    }
+                    else if (sourceAccount.equals(destinationAccount))
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING,"You dont have this amount in this Account",ButtonType.OK);
+                        alert.showAndWait();
+                    }
+                    else {
+                        AccountController.getInstance().withdraw(sourceAccount,amount);
+                        AccountController.getInstance().deposit(destinationAccount,amount);
+                        TransactionController.getInstance().save(TransactionType.Withdraw,amount,account);
+                        TransactionController.getInstance().save(TransactionType.Deposit, amount, (Account) AccountController.getInstance().findById(destinationAccount).getData());
+                        try {
+                            formLoader.showFormAccountServices();
+                            Stage stage = (Stage) transferButton.getScene().getWindow();
+                            stage.close();
+                        } catch (IOException e) {
+                            log.error("cannot load AccountService in transfer Button",e);
+                            Alert alert = new Alert(Alert.AlertType.ERROR,"cannot load AccountService Form call support", ButtonType.OK);
+                            alert.showAndWait();
+                        }
+
+                    }
+                } catch (NumberFormatException e) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING,"Please enter valid numbers", ButtonType.OK);
+                    alert.showAndWait();
+                }
+
             }
+
 
         });
         backButton.setOnAction(event -> {
             try {
-                FormLoader formLoader = new FormLoader();
                 formLoader.showFormAccountServices();
                 Stage stage = (Stage) backButton.getScene().getWindow();
                 stage.close();
