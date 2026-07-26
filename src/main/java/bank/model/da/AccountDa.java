@@ -77,8 +77,11 @@ public class AccountDa implements AutoCloseable {
         );
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        Account account = accountMapper.recordToAccount(resultSet);
-//        log.debug("select account by id");
+        Account account = null;
+        if (resultSet.next()) {
+            account = accountMapper.recordToAccount(resultSet);
+        }
+        log.debug("select account by id");
         return account;
     }
 
