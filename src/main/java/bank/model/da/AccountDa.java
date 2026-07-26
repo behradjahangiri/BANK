@@ -64,7 +64,8 @@ public class AccountDa implements AutoCloseable {
         List<Account> accountList = new ArrayList<>();
         while (resultSet.next()) {
             Account account = accountMapper.recordToAccount(resultSet);
-            account.setAccountId(resultSet.getInt("ACCOUNTid"));
+//            account.setAccountId(resultSet.getInt("ACCOUNTid"));
+            accountList.add(account);
         }
 //        log.debug("select all account");
         return accountList;
