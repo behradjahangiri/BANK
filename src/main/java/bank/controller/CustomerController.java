@@ -61,7 +61,7 @@ public class CustomerController {
                             .dateOfBirth(dateOfBirth)
                             .registrationDate(registrationDate)
                             .build();
-            CustomerBl.getInstance().save(customer);
+            CustomerBl.getInstance().update(customer);
             log.debug("customer edited");
             return new Response(ResponseStatus.Success,"Customer edited successfully",customer);
         } catch (Exception e) {
