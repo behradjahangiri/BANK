@@ -33,10 +33,6 @@ public class CustomerBl implements BusinessLogic<Customer, Integer>{
             if (customerDa.findCustomerById(customer.getId()) == null) {
                 throw new Exception("Account with id = " + customer.getId() + " Not exists !!!");
             }
-            if (customerDa.findCustomerById(customer.getId()) != null)
-            {
-                throw new Exception("Duplicate account number !!!");
-            }
             customerDa.updateCustomer(customer);
         }
         return customer;
