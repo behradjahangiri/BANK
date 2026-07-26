@@ -57,14 +57,15 @@ public class TransactionDa implements AutoCloseable {
     public List<Transaction> findAllTransactions() throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
-                "SELECT * FROTRANSACTION_REPORT"
+                "SELECT * FROM TRANSACTION_REPORT"
         );
         ResultSet resultSet = preparedStatement.executeQuery();
         List<Transaction> transactionList = new ArrayList<>();
 
         while (resultSet.next()) {
             Transaction transaction = transactionMapper.recordToTransaction(resultSet);
-            transaction.setTransactionid(resultSet.getLong("TRANSACTIONID"));
+//            transaction.setTransactionid(resultSet.getLong("TRANSACTIONID"));
+            transactionList.add(transaction);
         }
         log.debug("select all transactions");
         return transactionList;
