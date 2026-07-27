@@ -23,7 +23,7 @@ public class TransactionDa implements AutoCloseable {
                 "INSERT INTO TRANSACTION (TRANSACTIONID, TRANSACTIONTYPE, AMOUNT," +
                         " TRANSACTIONDATE,  ACCOUNTID) "+"values (?,?,?,?,?)"
         );
-        preparedStatement.setLong(1,transaction.getTransactionid());
+        preparedStatement.setLong(1,transaction.getTransactionId());
         preparedStatement.setString(2,transaction.getTransactionType().name());
         preparedStatement.setDouble(3,transaction.getAmount());
         preparedStatement.setTimestamp(4, Timestamp.valueOf(transaction.getDateTime()));
@@ -42,7 +42,7 @@ public class TransactionDa implements AutoCloseable {
         preparedStatement.setDouble(2,transaction.getAmount());
         preparedStatement.setTimestamp(3, Timestamp.valueOf(transaction.getDateTime()));
         preparedStatement.setInt(4,transaction.getAccount().getAccountId());
-        preparedStatement.setLong(5,transaction.getTransactionid());
+        preparedStatement.setLong(5,transaction.getTransactionId());
         preparedStatement.execute();
     }
     public void deleteTransaction(Transaction transaction) throws Exception {
@@ -50,7 +50,7 @@ public class TransactionDa implements AutoCloseable {
         preparedStatement = connection.prepareStatement(
                 "delete from TRANSACTION where TRANSACTIONID=?"
         );
-        preparedStatement.setLong(1,transaction.getTransactionid());
+        preparedStatement.setLong(1,transaction.getTransactionId());
         preparedStatement.execute();
     }
 
