@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 
 public class Transaction {
-    private long transactionid;
+    private long transactionId;
     private TransactionType transactionType;
     private double amount;
     private LocalDateTime dateTime;
