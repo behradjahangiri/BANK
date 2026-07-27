@@ -37,7 +37,7 @@ public class TransactionController {
             Transaction transaction =
                     Transaction
                             .builder()
-                            .transactionid(transactionId)
+                            .transactionId(transactionId)
                             .transactionType(transactionType)
                             .amount(amount)
                             .dateTime(LocalDateTime.now())
