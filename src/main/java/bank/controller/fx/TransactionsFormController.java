@@ -3,6 +3,7 @@ package bank.controller.fx;
 import bank.model.entity.Account;
 import bank.model.entity.Transaction;
 import bank.model.tools.FormLoader;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,17 +12,15 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.ResourceBundle;
 
 @Slf4j
 
 public class TransactionsFormController implements Initializable {
-
 
     @FXML
     private TableView<Transaction> transactionsTable;
@@ -36,10 +35,12 @@ public class TransactionsFormController implements Initializable {
     private TableColumn<Transaction, Double> amountColumn;
 
     @FXML
-    private TableColumn<Transaction, LocalDate> dateTimeColumn;
-
+    private TableColumn<Transaction, LocalDateTime> dateTimeColumn;
+//
+//    @FXML
+//    private TableColumn<Transaction, Account> accountIdColumn;
     @FXML
-    private TableColumn<Transaction, Account> accountIdColumn;
+    private TableColumn<Transaction, Integer> accountIdColumn;
 
     @FXML
     private Button backButton;
@@ -67,8 +68,12 @@ public class TransactionsFormController implements Initializable {
         transactionTypeColumn.setCellValueFactory(new PropertyValueFactory<>("transactionType"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         dateTimeColumn.setCellValueFactory(new PropertyValueFactory<>("dateTime"));
-//        اینجا باید کار بشه
-        accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
-        transactionsTable.getItems().clear();
+        accountIdColumn.setCellValueFactory(
+                cellData -> new ReadOnlyObjectWrapper<>(
+                        cellData.getValue().getAccount().getAccountId()
+                )
+        );
+        transactionsTable.setItems(transactionsObservableList);
+//        accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
     }
 }
