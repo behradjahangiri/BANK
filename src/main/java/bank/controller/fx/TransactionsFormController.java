@@ -1,6 +1,9 @@
 package bank.controller.fx;
 
+import bank.controller.TransactionController;
 import bank.model.entity.Account;
+import bank.model.entity.Response;
+import bank.model.entity.ResponseStatus;
 import bank.model.entity.Transaction;
 import bank.model.tools.FormLoader;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -26,7 +29,7 @@ public class TransactionsFormController implements Initializable {
     private TableView<Transaction> transactionsTable;
 
     @FXML
-    private TableColumn<Transaction, Integer> transactionIdColumn;
+    private TableColumn<Transaction, Long> transactionIdColumn;
 
     @FXML
     private TableColumn<Transaction, String> transactionTypeColumn;
@@ -61,9 +64,15 @@ public class TransactionsFormController implements Initializable {
                 alert.showAndWait();
             }
         });
+//        Response response = TransactionController.getInstance().findAll();
+//        List<Transaction> transactions = (List<Transaction>) response.getData();
+//        showDataOnTableView();
+        loadTransactions();
+
     }
     private  void showDataOnTableView(List<Transaction> transactions) {
-        ObservableList<Transaction> transactionsObservableList = FXCollections.observableArrayList();
+//        ObservableList<Transaction> transactionsObservableList = FXCollections.observableArrayList();
+        ObservableList<Transaction> transactionsObservableList = FXCollections.observableArrayList(transactions);
         transactionIdColumn.setCellValueFactory(new PropertyValueFactory<>("transactionId"));
         transactionTypeColumn.setCellValueFactory(new PropertyValueFactory<>("transactionType"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
@@ -75,5 +84,18 @@ public class TransactionsFormController implements Initializable {
         );
         transactionsTable.setItems(transactionsObservableList);
 //        accountIdColumn.setCellValueFactory(new PropertyValueFactory<>("accountId"));
+    }
+    private void loadTransactions() {
+        Response response = TransactionController.getInstance().findAll();
+
+        if (response.getResponseStatus() == ResponseStatus.Success) {
+            List<Transaction> transactions = (List<Transaction>) response.getData();
+            showDataOnTableView(transactions);
+            log.info("transactions loaded");
+        } else {
+            log.info("transactions load failed");
+            Alert alert = new Alert(Alert.AlertType.ERROR,response.getMessage(),ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 }
