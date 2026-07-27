@@ -91,8 +91,6 @@ public class TransferFormController implements Initializable {
                 }
 
             }
-
-
         });
         backButton.setOnAction(event -> {
             try {
