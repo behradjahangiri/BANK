@@ -105,9 +105,9 @@ public class TransactionMapper {
         // ========== تراکنش ==========
         return Transaction
                 .builder()
-                .transactionid(resultSet.getLong("transaction_id"))
+                .transactionId(resultSet.getLong("transaction_id"))
                 .transactionType(TransactionType.valueOf(resultSet.getString("transaction_type")))
-                .amount(resultSet.getFloat("amount"))
+                .amount(resultSet.getDouble("amount"))
                 .dateTime(resultSet.getTimestamp("transaction_date").toLocalDateTime())
                 .account(account)
                 .build();
