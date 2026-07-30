@@ -15,7 +15,7 @@ public class TransactionBl
 //    @Override
     public Transaction save(Transaction transaction) throws Exception {
         try (TransactionDa transactionDa = new TransactionDa()) {
-            if (transactionDa.findTransactionById(transaction.getTransactionid()) != null) {
+            if (transactionDa.findTransactionById(transaction.getTransactionId()) != null) {
                 throw new Exception("Transaction already exists");
             }
             transaction.setDateTime(LocalDateTime.now());
@@ -27,10 +27,10 @@ public class TransactionBl
 //    @Override
     public Transaction update(Transaction transaction) throws Exception {
         try (TransactionDa transactionDa = new TransactionDa()) {
-            if (transactionDa.findTransactionById(transaction.getTransactionid()) == null) {
+            if (transactionDa.findTransactionById(transaction.getTransactionId()) == null) {
                 throw new Exception("Transaction id not found");
             }
-            if (transactionDa.findTransactionById(transaction.getTransactionid()) != null) {
+            if (transactionDa.findTransactionById(transaction.getTransactionId()) != null) {
                 transactionDa.updateTransaction(transaction);
             }
         }
@@ -38,14 +38,14 @@ public class TransactionBl
     }
 
 //    @Override
-    public Transaction delete(long id) throws Exception {
-        return null;
-    }
+//    public Transaction delete(long id) throws Exception {
+//        return null;
+//    }
 
 //    @Override
     public Transaction delete(Transaction transaction) throws Exception {
         try (TransactionDa transactionDa = new TransactionDa()) {
-            if (transactionDa.findTransactionById(transaction.getTransactionid()) == null) {
+            if (transactionDa.findTransactionById(transaction.getTransactionId()) == null) {
                 throw new Exception("Transaction id not found");
             }
             transactionDa.deleteTransaction(transaction);
