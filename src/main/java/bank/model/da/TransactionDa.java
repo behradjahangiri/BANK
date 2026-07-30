@@ -73,20 +73,35 @@ public class TransactionDa implements AutoCloseable {
 
 
 
-    public Transaction findTransactionById(long transactionid) throws Exception {
+//    public Transaction findTransactionById(long transactionid) throws Exception {
+//        connection = ConnectionProvider.getInstance().getConnection();
+//        preparedStatement = connection.prepareStatement(
+//                "select * from TRANSACTION where TRANSACTIONID=?"
+//        );
+//        preparedStatement.setLong(1,transactionid);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        Transaction transaction = null;
+//        if(resultSet.next()){
+//            transaction = transactionMapper.recordToTransaction(resultSet);
+//        }
+//        log.debug("select transaction by id");
+//        return transaction;
+//
+//    }
+
+    public Transaction findTransactionById(long transactionId) throws Exception {
         connection = ConnectionProvider.getInstance().getConnection();
         preparedStatement = connection.prepareStatement(
-                "select * from TRANSACTION where TRANSACTIONID=?"
+                "SELECT * FROM TRANSACTION_REPORT WHERE transaction_id=?"
         );
-        preparedStatement.setLong(1,transactionid);
+        preparedStatement.setLong(1, transactionId);
         ResultSet resultSet = preparedStatement.executeQuery();
         Transaction transaction = null;
-        if(resultSet.next()){
+        if (resultSet.next()) {
             transaction = transactionMapper.recordToTransaction(resultSet);
         }
         log.debug("select transaction by id");
         return transaction;
-
     }
     @Override
     public void close() throws Exception {
